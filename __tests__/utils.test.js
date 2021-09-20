@@ -47,7 +47,34 @@ describe("fetchData", () => {
       ],
     ]);
   });
-  test("works when passed an array containing multiple objects");
+  test("works when passed an array containing multiple objects", () => {
+    const array = [
+      {
+        username: "tickle122",
+        name: "Tom Tickle",
+        avatar_url:
+          "https://vignette.wikia.nocookie.net/mrmen/images/d/d6/Mr-Tickle-9a.png/revision/latest?cb=20180127221953",
+      },
+      {
+        username: "grumpy19",
+        name: "Paul Grump",
+        avatar_url:
+          "https://vignette.wikia.nocookie.net/mrmen/images/7/78/Mr-Grumpy-3A.PNG/revision/latest?cb=20170707233013",
+      },
+    ];
+    expect(fetchData(array, "username", "name", "avatar_url")).toEqual([
+      [
+        "tickle122",
+        "Tom Tickle",
+        "https://vignette.wikia.nocookie.net/mrmen/images/d/d6/Mr-Tickle-9a.png/revision/latest?cb=20180127221953",
+      ],
+      [
+        "grumpy19",
+        "Paul Grump",
+        "https://vignette.wikia.nocookie.net/mrmen/images/7/78/Mr-Grumpy-3A.PNG/revision/latest?cb=20170707233013",
+      ],
+    ]);
+  });
 });
 
 // [
