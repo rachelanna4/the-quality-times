@@ -1,1 +1,1 @@
-exports.fetchTopics = () => {};
+exports.getTopics = (req, res, next) => {};
