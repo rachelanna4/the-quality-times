@@ -62,6 +62,13 @@ const seed = async (data) => {
     topics
   );
   await db.query(topicQuery);
+
+  const users = fetchData(userData, "username", "avatar_url", "name");
+  const userQuery = format(
+    `INSERT INTO users(username, avatar_url, name) VALUES %L;`,
+    users
+  );
+  await db.query(userQuery);
 };
 
 module.exports = seed;
