@@ -1,8 +1,8 @@
-const { fetchTopics } = require("../db/utils/data-manipulation");
+const { fetchData } = require("../db/utils/data-manipulation");
 
-describe("fetchTopics", () => {
+describe("fetchData", () => {
   test("returns an empty array when passed an empty array", () => {
-    expect(fetchTopics([])).toEqual([]);
+    expect(fetchData([])).toEqual([]);
   });
 });
 
