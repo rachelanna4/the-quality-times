@@ -1,1 +1,3 @@
-// extract any functions you are using to manipulate your data, into this file
+exports.fetchTopics = (data) => {
+  if (data.length === 0) return [];
+};
