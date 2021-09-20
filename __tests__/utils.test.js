@@ -75,10 +75,10 @@ describe("fetchData", () => {
       ],
     ]);
   });
+  test("returned array does not have the same reference as the original array", () => {
+    const array = [
+      { description: "Code is love, code is life", slug: "coding" },
+    ];
+    expect(fetchData(array, "description", "slug")).not.toBe(array);
+  });
 });
-
-// [
-//   { description: "Code is love, code is life", slug: "coding" },
-//   { description: "FOOTIE!", slug: "football" },
-//   { description: "Hey good looking, what you got cooking?", slug: "cooking" },
-// ];
