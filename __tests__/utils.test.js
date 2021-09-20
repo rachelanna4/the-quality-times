@@ -9,6 +9,16 @@ describe("fetchData", () => {
     const key = "description";
     expect(fetchData(array, key)).toEqual([["Code is love, code is life"]]);
   });
+  test("when passed the names of multiple keys, returns a nested array with the values of all of those keys", () => {
+    const array = [
+      { description: "Code is love, code is life", slug: "coding" },
+    ];
+    const key1 = "description";
+    const key2 = "slug";
+    expect(fetchData(array, key1, key2)).toEqual([
+      ["Code is love, code is life", "coding"],
+    ]);
+  });
 });
 
 // [
