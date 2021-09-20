@@ -81,4 +81,14 @@ describe("fetchData", () => {
     ];
     expect(fetchData(array, "description", "slug")).not.toBe(array);
   });
+  test("should not mutate the original array", () => {
+    const array = [
+      { description: "Code is love, code is life", slug: "coding" },
+    ];
+    const expectedArray = [
+      { description: "Code is love, code is life", slug: "coding" },
+    ];
+    fetchData(array, "description", "slug");
+    expect(array).toEqual(expectedArray);
+  });
 });
