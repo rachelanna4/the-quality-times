@@ -13,12 +13,41 @@ describe("fetchData", () => {
     const array = [
       { description: "Code is love, code is life", slug: "coding" },
     ];
-    const key1 = "description";
-    const key2 = "slug";
-    expect(fetchData(array, key1, key2)).toEqual([
+    expect(fetchData(array, "description", "slug")).toEqual([
       ["Code is love, code is life", "coding"],
     ]);
+    const array2 = [
+      {
+        title: "Running a Node App",
+        topic: "coding",
+        author: "jessjelly",
+        body: "This is part two of a series",
+        created_at: new Date(1604728980000),
+        votes: 0,
+      },
+    ];
+    expect(
+      fetchData(
+        array2,
+        "title",
+        "topic",
+        "author",
+        "body",
+        "created_at",
+        "votes"
+      )
+    ).toEqual([
+      [
+        "Running a Node App",
+        "coding",
+        "jessjelly",
+        "This is part two of a series",
+        new Date(1604728980000),
+        0,
+      ],
+    ]);
   });
+  test("works when passed an array containing multiple objects");
 });
 
 // [
