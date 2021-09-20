@@ -1,4 +1,6 @@
 const db = require("../connection.js");
+const format = require("pg-format");
+const { fetchData } = require("../utils/data-manipulation.js");
 
 const createTables = async () => {
   await db.query(`DROP TABLE IF EXISTS comments;`);
@@ -26,10 +28,10 @@ const createTables = async () => {
       article_id SERIAL PRIMARY KEY,  
       title VARCHAR(100) NOT NULL, 
       body TEXT NOT NULL,
-      votes INT NOT NULL DEFAULT 0, 
+      votes INT DEFAULT 0, 
       topic VARCHAR(20) NOT NULL,
       author VARCHAR(20) NOT NULL,
-      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (topic) REFERENCES topics(slug) ON DELETE CASCADE,
       FOREIGN KEY (author) REFERENCES users(username) ON DELETE CASCADE
       );`
@@ -40,8 +42,8 @@ const createTables = async () => {
       comment_id SERIAL PRIMARY KEY,  
       author VARCHAR(20) NOT NULL, 
       article_id INT NOT NULL,
-      votes INT NOT NULL DEFAULT 0, 
-      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      votes INT DEFAULT 0, 
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       body VARCHAR(500) NOT NULL,
       FOREIGN KEY (author) REFERENCES users(username) ON DELETE CASCADE,
       FOREIGN KEY (article_id) REFERENCES articles(article_id) ON DELETE CASCADE
@@ -53,8 +55,13 @@ const seed = async (data) => {
   const { articleData, commentData, topicData, userData } = data;
 
   await createTables();
-  // 1. create tables
-  // 2. insert data
+
+  const topics = fetchData(topicData, "slug", "description");
+  const topicQuery = format(
+    `INSERT INTO topics (slug, description) VALUES %L;`,
+    topics
+  );
+  await db.query(topicQuery);
 };
 
 module.exports = seed;
