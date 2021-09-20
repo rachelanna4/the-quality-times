@@ -84,6 +84,20 @@ const seed = async (data) => {
     articles
   );
   await db.query(articleQuery);
+
+  const comments = fetchData(
+    commentData,
+    "author",
+    "article_id",
+    "votes",
+    "created_at",
+    "body"
+  );
+  const commentQuery = format(
+    `INSERT INTO comments(author, article_id, votes, created_at, body) VALUES %L;`,
+    comments
+  );
+  await db.query(commentQuery);
 };
 
 module.exports = seed;
