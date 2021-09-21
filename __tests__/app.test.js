@@ -104,4 +104,16 @@ describe("PATCH /api/articles/:article_id", () => {
     expect(typeof res.body).toEqual("object");
     expect(Array.isArray(res.body)).toEqual(false);
   });
+  test("200: object returned has correct keys and correct value data types", async () => {
+    const res = await request(app).patch("/api/articles/1").expect(200);
+    expect(res.body).toMatchObject({
+      article_id: expect.any(Number),
+      title: expect.any(String),
+      body: expect.any(String),
+      votes: expect.any(Number),
+      topic: expect.any(String),
+      author: expect.any(String),
+      created_at: expect.any(String),
+    });
+  });
 });
