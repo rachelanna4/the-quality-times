@@ -17,11 +17,14 @@ describe("GET /api/topics", () => {
     const res = await request(app).get("/api/topics").expect(200);
     expect(res.body.topics.length).toBe(3);
   });
-  test("200: returns an array of objects containing the correct keys", async () => {
+  test("200: returns an array of objects containing the correct keys and correct value data types", async () => {
     const res = await request(app).get("/api/topics").expect(200);
-    expect(Object.keys(res.body.topics[0])).toContain("slug" && "description");
+    expect(res.body.topics.length).toBeGreaterThanOrEqual(1);
+    res.body.topics.forEach((student) => {
+      expect(student).toMatchObject({
+        slug: expect.any(String),
+        description: expect.any(String),
+      });
+    });
   });
 });
-
-// 200: objects returned in the array have the correct keys
-// test("200: returns an array containing the expected topics")
