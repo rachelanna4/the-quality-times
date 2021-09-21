@@ -42,3 +42,10 @@ describe("GET /api/topics", () => {
     });
   });
 });
+
+describe("GET /api/articles/:article_id", () => {
+  test("200: return a single object", async () => {
+    const res = await request(app).get("/api/articles/2").expect(200);
+    expect(typeof res.body).toEqual("object");
+  });
+});
