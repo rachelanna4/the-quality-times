@@ -17,3 +17,11 @@ exports.fetchArticleById = async (article_id) => {
   article.comment_count = parseInt(article.comment_count);
   return article;
 };
+
+exports.updateArticleById = async (article_id, inc_votes) => {
+  const result = await db.query(
+    `SELECT * FROM articles WHERE article_id = $1`,
+    [article_id]
+  );
+  return result.rows[0];
+};
