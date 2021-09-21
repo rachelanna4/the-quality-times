@@ -61,4 +61,17 @@ describe("GET /api/articles/:article_id", () => {
       comment_count: expect.any(Number),
     });
   });
+  test("200: returns an object containing the expected article data", async () => {
+    const res = await request(app).get("/api/articles/1").expect(200);
+    expect(res.body).toEqual({
+      author: "butter_bridge",
+      title: "Living in the shadow of a great man",
+      article_id: 1,
+      body: "I find this existence challenging",
+      topic: "mitch",
+      created_at: "2020-07-09T20:11:00.000Z",
+      votes: 100,
+      comment_count: 13,
+    });
+  });
 });
