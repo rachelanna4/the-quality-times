@@ -87,4 +87,8 @@ describe("GET /api/articles/:article_id", () => {
       comment_count: 0,
     });
   });
+  test("400: when passed a non-valid article_id", async () => {
+    const res = await request(app).get("/api/articles/invalid_id").expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
 });
