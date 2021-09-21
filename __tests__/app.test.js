@@ -27,4 +27,11 @@ describe("GET /api/topics", () => {
       });
     });
   });
+  test("200: returns an array containing the expected topics", async () => {
+    const res = await request(app).get("/api/topics").expect(200);
+    expect(res.body.topics[0]).toEqual({
+      slug: "mitch",
+      description: "The man, the Mitch, the legend",
+    });
+  });
 });
