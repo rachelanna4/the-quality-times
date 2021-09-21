@@ -1,11 +1,10 @@
 const { fetchTopics } = require("../models/topics.model.js");
 
-exports.getTopics = (req, res, next) => {
-  fetchTopics()
-    .then((topics) => {
-      res.status(200).send({ topics: topics });
-    })
-    .catch((err) => {
-      next(err);
-    });
+exports.getTopics = async (req, res, next) => {
+  try {
+    const topics = await fetchTopics();
+    res.status(200).send({ topics: topics });
+  } catch (err) {
+    next(err);
+  }
 };
