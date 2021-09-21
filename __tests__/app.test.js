@@ -13,11 +13,11 @@ describe("GET /api/topics", () => {
     expect(Array.isArray(res.body.topics)).toEqual(true);
     expect(typeof res.body.topics[0]).toEqual("object");
   });
+  test("200: returns an array of correct length", async () => {
+    const res = await request(app).get("/api/topics").expect(200);
+    expect(res.body.topics.length).toBe(3);
+  });
 });
-// test("200: returns an array of correct length", () => {
-//   return request(app)
-// });
-// });
 
 // 200: objects returned in the array have the correct keys
 // test("200: returns an array containing the expected topics")
