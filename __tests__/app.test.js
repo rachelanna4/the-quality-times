@@ -17,6 +17,10 @@ describe("GET /api/topics", () => {
     const res = await request(app).get("/api/topics").expect(200);
     expect(res.body.topics.length).toBe(3);
   });
+  test("200: returns an array of objects containing the correct keys", async () => {
+    const res = await request(app).get("/api/topics").expect(200);
+    expect(Object.keys(res.body.topics[0])).toContain("slug" && "description");
+  });
 });
 
 // 200: objects returned in the array have the correct keys
