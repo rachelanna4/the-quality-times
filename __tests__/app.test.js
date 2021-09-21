@@ -48,4 +48,17 @@ describe("GET /api/articles/:article_id", () => {
     const res = await request(app).get("/api/articles/2").expect(200);
     expect(typeof res.body).toEqual("object");
   });
+  test("200: object returned has correct keys and correct value data types", async () => {
+    const res = await request(app).get("/api/articles/1").expect(200);
+    expect(res.body).toMatchObject({
+      author: expect.any(String),
+      title: expect.any(String),
+      article_id: expect.any(Number),
+      body: expect.any(String),
+      topic: expect.any(String),
+      created_at: expect.any(String),
+      votes: expect.any(Number),
+      comment_count: expect.any(Number),
+    });
+  });
 });
