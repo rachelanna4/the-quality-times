@@ -7,6 +7,13 @@ const request = require("supertest");
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
+describe("invalid url", () => {
+  test("404: returns an invalid url message when passed an endpoint that doesn't exist", async () => {
+    const res = await request(app).get("/api/invalidUrl").expect(404);
+    expect(res.body.msg).toBe("Invalid URL");
+  });
+});
+
 describe("GET /api/topics", () => {
   test("200: returns an array of objects", async () => {
     const res = await request(app).get("/api/topics").expect(200);
