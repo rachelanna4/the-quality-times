@@ -1,6 +1,10 @@
 const express = require("express");
 const apiRouter = require("./routes/api.router.js");
-const { handle400errors, handle500errors } = require("./errors.js");
+const {
+  handle404Errors,
+  handle400Errors,
+  handle500Errors,
+} = require("./errors.js");
 
 const app = express();
 
@@ -12,7 +16,8 @@ app.all("*", (req, res) => {
   res.status(404).send({ msg: "Invalid URL" });
 });
 
-app.use(handle400errors);
-app.use(handle500errors);
+app.use(handle404Errors);
+app.use(handle400Errors);
+app.use(handle500Errors);
 
 module.exports = app;
