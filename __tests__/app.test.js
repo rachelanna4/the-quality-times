@@ -74,4 +74,17 @@ describe("GET /api/articles/:article_id", () => {
       comment_count: 13,
     });
   });
+  test("200: returns an object with comment_count property of 0 when an article does not have any associated comments", async () => {
+    const res = await request(app).get("/api/articles/4").expect(200);
+    expect(res.body).toEqual({
+      author: "rogersop",
+      title: "Student SUES Mitch!",
+      article_id: 4,
+      body: "We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
+      topic: "mitch",
+      created_at: "2020-05-06T01:14:00.000Z",
+      votes: 0,
+      comment_count: 0,
+    });
+  });
 });
