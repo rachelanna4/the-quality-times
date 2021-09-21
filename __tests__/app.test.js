@@ -47,6 +47,7 @@ describe("GET /api/articles/:article_id", () => {
   test("200: return a single object", async () => {
     const res = await request(app).get("/api/articles/2").expect(200);
     expect(typeof res.body).toEqual("object");
+    expect(Array.isArray(res.body)).toEqual(false);
   });
   test("200: object returned has correct keys and correct value data types", async () => {
     const res = await request(app).get("/api/articles/1").expect(200);
@@ -96,3 +97,12 @@ describe("GET /api/articles/:article_id", () => {
     expect(res.body.msg).toBe("Article not found");
   });
 });
+
+// describe("PATCH /api/articles/:article_id", () => {
+//   test("200: return a single object", async () => {
+//     const res = await request(app).patch("/api/articles/1").expect(200);
+//     console.log(res.body);
+//     expect(typeof res.body).toEqual("object");
+//     expect(Array.isArray(res.body)).toEqual(false);
+//   });
+// });
