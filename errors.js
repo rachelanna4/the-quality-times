@@ -1,10 +1,20 @@
-exports.handle400errors = (err, req, res, next) => {
-  if (err.status === 400) {
+exports.handle404Errors = (err, req, res, next) => {
+  if (err.status === 404) {
     res.status(err.status).send({ msg: err.msg });
+  } else {
+    next(err);
   }
 };
 
-exports.handle500errors = (err, req, res, next) => {
+exports.handle400Errors = (err, req, res, next) => {
+  if (err.status === 400) {
+    res.status(err.status).send({ msg: err.msg });
+  } else {
+    next(err);
+  }
+};
+
+exports.handle500Errors = (err, req, res, next) => {
   console.log(err);
   res.status(500).send({ msg: "Internal Server Error" });
 };
