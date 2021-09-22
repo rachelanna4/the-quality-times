@@ -249,9 +249,10 @@ describe("GET /api/articles", () => {
 });
 
 describe("GET /api/articles/:article_id/comments", () => {
-  test("200: returns an array of objects", async () => {
+  test("200: returns an array of all comment objects associated with the specified article", async () => {
     const res = await request(app).get("/api/articles/1/comments").expect(200);
     expect(Array.isArray(res.body.comments)).toEqual(true);
+    expect(res.body.comments.length).toBe(13);
     expect(typeof res.body.comments[0]).toEqual("object");
   });
 });
