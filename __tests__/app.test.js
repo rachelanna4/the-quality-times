@@ -197,4 +197,14 @@ describe("GET /api/articles", () => {
     const res = await request(app).get("/api/articles/").expect(200);
     expect(res.body.articles).toBeSortedBy("created_at");
   });
+  test("200: returned articles are returned sorted by a column specified by the user", async () => {
+    const res = await request(app)
+      .get("/api/articles?sort_by=votes")
+      .expect(200);
+    expect(res.body.articles).toBeSortedBy("votes");
+    const res2 = await request(app)
+      .get("/api/articles?sort_by=title")
+      .expect(200);
+    expect(res2.body.articles).toBeSortedBy("title");
+  });
 });
