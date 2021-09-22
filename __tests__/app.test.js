@@ -207,4 +207,12 @@ describe("GET /api/articles", () => {
       .expect(200);
     expect(res2.body.articles).toBeSortedBy("title", { descending: true });
   });
+  test("200: returned articles are returned sorted in ascending order when specified by the user in the passed-in order parameter", async () => {
+    const res = await request(app).get("/api/articles?order=asc").expect(200);
+    expect(res.body.articles).toBeSortedBy("created_at", { ascending: true });
+    const res2 = await request(app)
+      .get("/api/articles?sort_by=author&order=asc")
+      .expect(200);
+    expect(res2.body.articles).toBeSortedBy("author", { ascending: true });
+  });
 });
