@@ -240,4 +240,10 @@ describe("GET /api/articles", () => {
       .expect(400);
     expect(res.body.msg).toBe("Bad request");
   });
+  test("404: returns topic not found message when non-existent topic passed in", async () => {
+    const res = await request(app)
+      .get("/api/articles?topic=non_existent_topic")
+      .expect(404);
+    expect(res.body.msg).toBe("Topic not found");
+  });
 });

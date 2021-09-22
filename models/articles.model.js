@@ -52,8 +52,16 @@ exports.fetchArticles = async (
   ];
 
   const validOrder = ["asc", "desc"];
+
   if (!validColumns.includes(sort_by) || !validOrder.includes(order)) {
     return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+
+  const topics = await db.query(`SELECT slug FROM topics;`);
+  const topicSlugs = topics.rows.map((topic) => topic.slug);
+
+  if (topic && !topicSlugs.includes(topic)) {
+    return Promise.reject({ status: 404, msg: "Topic not found" });
   }
 
   let queryStr = `SELECT articles.author, title, articles.article_id, articles.body, topic, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id `;
