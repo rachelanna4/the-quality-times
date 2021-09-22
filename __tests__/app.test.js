@@ -272,10 +272,16 @@ describe("GET /api/articles/:article_id/comments", () => {
       });
     });
   });
-  test("404: when passed a valid but non-existent article_id", async () => {
+  test("404: returns Article not found message when passed a valid but non-existent article_id", async () => {
     const res = await request(app)
       .get("/api/articles/101/comments")
       .expect(404);
     expect(res.body.msg).toBe("Article not found");
+  });
+  test("400: returns Bad request message when passed an invalid article_id", async () => {
+    const res = await request(app)
+      .get("/api/articles/not_a_valid_id/comments")
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
   });
 });
