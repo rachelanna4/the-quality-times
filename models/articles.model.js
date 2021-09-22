@@ -50,7 +50,9 @@ exports.fetchArticles = async (
     "created_at",
     "votes",
   ];
-  if (!validColumns.includes(sort_by)) {
+
+  const validOrder = ["asc", "desc"];
+  if (!validColumns.includes(sort_by) || !validOrder.includes(order)) {
     return Promise.reject({ status: 400, msg: "Bad request" });
   }
 

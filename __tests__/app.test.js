@@ -234,4 +234,10 @@ describe("GET /api/articles", () => {
       .expect(400);
     expect(res.body.msg).toBe("Bad request");
   });
+  test("400: returns bad request message when invalid order query passed in", async () => {
+    const res = await request(app)
+      .get("/api/articles?order=diagonal")
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
 });
