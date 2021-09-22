@@ -193,18 +193,18 @@ describe("GET /api/articles", () => {
     );
     expect(article4.comment_count).toBe(0);
   });
-  test("200: returned articles are returned sorted by date as default", async () => {
+  test("200: returned articles are returned sorted by date in descending order by default", async () => {
     const res = await request(app).get("/api/articles/").expect(200);
-    expect(res.body.articles).toBeSortedBy("created_at");
+    expect(res.body.articles).toBeSortedBy("created_at", { descending: true });
   });
-  test("200: returned articles are returned sorted by a column specified by the user", async () => {
+  test("200: returned articles are returned sorted by a column specified by the user in descending order by default", async () => {
     const res = await request(app)
       .get("/api/articles?sort_by=votes")
       .expect(200);
-    expect(res.body.articles).toBeSortedBy("votes");
+    expect(res.body.articles).toBeSortedBy("votes", { descending: true });
     const res2 = await request(app)
       .get("/api/articles?sort_by=title")
       .expect(200);
-    expect(res2.body.articles).toBeSortedBy("title");
+    expect(res2.body.articles).toBeSortedBy("title", { descending: true });
   });
 });

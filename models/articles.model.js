@@ -36,9 +36,9 @@ exports.updateArticleById = async (article_id, inc_votes) => {
   return result.rows[0];
 };
 
-exports.fetchArticles = async (sort_by = "created_at") => {
+exports.fetchArticles = async (sort_by = "created_at", order = "desc") => {
   const result = await db.query(
-    `SELECT articles.author, title, articles.article_id, articles.body, topic, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id GROUP BY articles.article_id ORDER BY articles.${sort_by};`
+    `SELECT articles.author, title, articles.article_id, articles.body, topic, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id GROUP BY articles.article_id ORDER BY articles.${sort_by} ${order};`
   );
 
   return result.rows.map((article) => {
