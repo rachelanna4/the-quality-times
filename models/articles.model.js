@@ -19,9 +19,15 @@ exports.fetchArticleById = async (article_id) => {
 };
 
 exports.updateArticleById = async (article_id, inc_votes) => {
+  await db.query(
+    "UPDATE articles SET votes = votes + $2 WHERE article_id = $1;",
+    [article_id, inc_votes]
+  );
+
   const result = await db.query(
     `SELECT * FROM articles WHERE article_id = $1`,
     [article_id]
   );
+
   return result.rows[0];
 };

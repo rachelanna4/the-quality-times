@@ -100,12 +100,18 @@ describe("GET /api/articles/:article_id", () => {
 
 describe("PATCH /api/articles/:article_id", () => {
   test("200: return a single object", async () => {
-    const res = await request(app).patch("/api/articles/1").expect(200);
+    const res = await request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: 1 })
+      .expect(200);
     expect(typeof res.body).toEqual("object");
     expect(Array.isArray(res.body)).toEqual(false);
   });
   test("200: object returned has correct keys and correct value data types", async () => {
-    const res = await request(app).patch("/api/articles/1").expect(200);
+    const res = await request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: 1 })
+      .expect(200);
     expect(res.body).toMatchObject({
       article_id: expect.any(Number),
       title: expect.any(String),
@@ -115,5 +121,12 @@ describe("PATCH /api/articles/:article_id", () => {
       author: expect.any(String),
       created_at: expect.any(String),
     });
+  });
+  test("200: object returned has count property increased when passed a inc_votes value of >= 1", async () => {
+    const res = await request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: 1 })
+      .expect(200);
+    expect(res.body.votes).toBe(101);
   });
 });
