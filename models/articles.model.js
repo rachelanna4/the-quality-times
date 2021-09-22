@@ -19,6 +19,10 @@ exports.fetchArticleById = async (article_id) => {
 };
 
 exports.updateArticleById = async (article_id, inc_votes) => {
+  if (isNaN(inc_votes)) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+
   await db.query(
     "UPDATE articles SET votes = votes + $2 WHERE article_id = $1;",
     [article_id, inc_votes]
