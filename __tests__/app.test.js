@@ -143,4 +143,11 @@ describe("PATCH /api/articles/:article_id", () => {
       .expect(404);
     expect(res.body.msg).toBe("Article not found");
   });
+  test("400: when passed a non-valid article_id", async () => {
+    const res = await request(app)
+      .patch("/api/articles/invalid_id")
+      .send({ inc_votes: 10 })
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
 });
