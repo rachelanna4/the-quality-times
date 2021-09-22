@@ -247,3 +247,11 @@ describe("GET /api/articles", () => {
     expect(res.body.msg).toBe("Topic not found");
   });
 });
+
+describe("GET /api/articles/:article_id/comments", () => {
+  test("200: returns an array of objects", async () => {
+    const res = await request(app).get("/api/articles/1/comments").expect(200);
+    expect(Array.isArray(res.body.comments)).toEqual(true);
+    expect(typeof res.body.comments[0]).toEqual("object");
+  });
+});
