@@ -3,6 +3,7 @@ const testData = require("../db/data/test-data/index.js");
 const seed = require("../db/seeds/seed.js");
 const app = require("../app.js");
 const request = require("supertest");
+const { toBeSortedBy } = require("jest-sorted");
 
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
@@ -191,5 +192,9 @@ describe("GET /api/articles", () => {
       (article) => article.article_id === 4
     );
     expect(article4.comment_count).toBe(0);
+  });
+  test("200: returned articles are returned sorted by date as default", async () => {
+    const res = await request(app).get("/api/articles/").expect(200);
+    expect(res.body.articles).toBeSortedBy("created_at");
   });
 });
