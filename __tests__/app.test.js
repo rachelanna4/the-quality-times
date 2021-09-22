@@ -255,6 +255,11 @@ describe("GET /api/articles/:article_id/comments", () => {
     expect(res.body.comments.length).toBe(13);
     expect(typeof res.body.comments[0]).toEqual("object");
   });
+  test("200: returns an empty array if there are no comments associated with specified article", async () => {
+    const res = await request(app).get("/api/articles/2/comments").expect(200);
+    expect(Array.isArray(res.body.comments)).toEqual(true);
+    expect(res.body.comments.length).toBe(0);
+  });
   test("200: comment objects returned have correct keys and correct value data types", async () => {
     const res = await request(app).get("/api/articles/1/comments").expect(200);
     res.body.comments.forEach((comment) => {
