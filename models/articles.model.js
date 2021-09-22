@@ -36,10 +36,20 @@ exports.updateArticleById = async (article_id, inc_votes) => {
   return result.rows[0];
 };
 
-exports.fetchArticles = async (sort_by = "created_at", order = "desc") => {
-  const result = await db.query(
-    `SELECT articles.author, title, articles.article_id, articles.body, topic, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id GROUP BY articles.article_id ORDER BY articles.${sort_by} ${order};`
-  );
+exports.fetchArticles = async (
+  sort_by = "created_at",
+  order = "desc",
+  topic
+) => {
+  let queryStr = `SELECT articles.author, title, articles.article_id, articles.body, topic, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id `;
+
+  if (topic) {
+    queryStr += `WHERE articles.topic = '${topic}' `;
+  }
+
+  queryStr += `GROUP BY articles.article_id ORDER BY ${sort_by} ${order};`;
+
+  const result = await db.query(queryStr);
 
   return result.rows.map((article) => {
     article.comment_count = parseInt(article.comment_count);

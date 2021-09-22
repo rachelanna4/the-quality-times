@@ -218,4 +218,9 @@ describe("GET /api/articles", () => {
     const res = await request(app).get("/api/articles").expect(200);
     expect(res.body.articles.length).toBe(12);
   });
+  test("200: returns only the articles associated with the specified topic when topic is passed in as a parameter", async () => {
+    const res = await request(app).get("/api/articles?topic=cats").expect(200);
+    expect(res.body.articles.length).toBe(1);
+    expect(res.body.articles[0].topic).toBe("cats");
+  });
 });
