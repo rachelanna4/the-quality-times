@@ -136,4 +136,11 @@ describe("PATCH /api/articles/:article_id", () => {
       .expect(200);
     expect(res.body.votes).toBe(60);
   });
+  test("404: when passed a valid but non-existent article_id", async () => {
+    const res = await request(app)
+      .patch("/api/articles/85")
+      .send({ inc_votes: 10 })
+      .expect(404);
+    expect(res.body.msg).toBe("Article not found");
+  });
 });
