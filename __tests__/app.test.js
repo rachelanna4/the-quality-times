@@ -255,4 +255,16 @@ describe("GET /api/articles/:article_id/comments", () => {
     expect(res.body.comments.length).toBe(13);
     expect(typeof res.body.comments[0]).toEqual("object");
   });
+  test("200: comment objects returned have correct keys and correct value data types", async () => {
+    const res = await request(app).get("/api/articles/1/comments").expect(200);
+    res.body.comments.forEach((comment) => {
+      expect(comment).toMatchObject({
+        comment_id: expect.any(Number),
+        votes: expect.any(Number),
+        created_at: expect.any(String),
+        author: expect.any(String),
+        body: expect.any(String),
+      });
+    });
+  });
 });
