@@ -223,4 +223,9 @@ describe("GET /api/articles", () => {
     expect(res.body.articles.length).toBe(1);
     expect(res.body.articles[0].topic).toBe("cats");
   });
+  test("200: returns an empty array when a valid topic is passed in but has no associated articles", async () => {
+    const res = await request(app).get("/api/articles?topic=paper").expect(200);
+    expect(Array.isArray(res.body.articles)).toBe(true);
+    expect(res.body.articles.length).toBe(0);
+  });
 });
