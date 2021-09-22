@@ -228,4 +228,10 @@ describe("GET /api/articles", () => {
     expect(Array.isArray(res.body.articles)).toBe(true);
     expect(res.body.articles.length).toBe(0);
   });
+  test("400: returns bad request message when invalid sort_by query passed in", async () => {
+    const res = await request(app)
+      .get("/api/articles?sort_by=not_a_column")
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
 });

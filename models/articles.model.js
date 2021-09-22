@@ -41,6 +41,19 @@ exports.fetchArticles = async (
   order = "desc",
   topic
 ) => {
+  const validColumns = [
+    "author",
+    "title",
+    "article_id",
+    "body",
+    "topic",
+    "created_at",
+    "votes",
+  ];
+  if (!validColumns.includes(sort_by)) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+
   let queryStr = `SELECT articles.author, title, articles.article_id, articles.body, topic, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id `;
 
   if (topic) {
