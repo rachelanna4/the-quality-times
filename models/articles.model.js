@@ -88,16 +88,3 @@ exports.fetchCommentsByArticle = async (article_id) => {
 
   return result.rows;
 };
-
-// #### **GET /api/articles/:article_id/comments**
-
-// Responds with:
-
-// - an array of comments for the given `article_id` of which each comment should have the following properties:
-//   - `comment_id`
-//   - `votes`
-//   - `created_at`
-//   - `author` which is the `username` from the users table
-//   - `body`
-
-// ---

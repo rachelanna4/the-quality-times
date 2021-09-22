@@ -41,6 +41,7 @@ exports.getArticles = async (req, res, next) => {
 exports.getCommentsByArticle = async (req, res, next) => {
   const { article_id } = req.params;
   try {
+    await fetchArticleById(article_id);
     const commentData = await fetchCommentsByArticle(article_id);
     res.status(200).send({ comments: commentData });
   } catch (err) {

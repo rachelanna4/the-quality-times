@@ -272,4 +272,10 @@ describe("GET /api/articles/:article_id/comments", () => {
       });
     });
   });
+  test("404: when passed a valid but non-existent article_id", async () => {
+    const res = await request(app)
+      .get("/api/articles/101/comments")
+      .expect(404);
+    expect(res.body.msg).toBe("Article not found");
+  });
 });
