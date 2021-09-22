@@ -129,4 +129,11 @@ describe("PATCH /api/articles/:article_id", () => {
       .expect(200);
     expect(res.body.votes).toBe(101);
   });
+  test("200: object returned has count property decreased when passed a inc_votes value of < 0", async () => {
+    const res = await request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: -40 })
+      .expect(200);
+    expect(res.body.votes).toBe(60);
+  });
 });
