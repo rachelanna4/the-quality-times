@@ -163,3 +163,22 @@ describe("PATCH /api/articles/:article_id", () => {
     expect(res2.body.msg).toBe("Bad request");
   });
 });
+
+describe("GET /api/articles", () => {
+  test("200: returns an array of all article objects", async () => {
+    const res = await request(app).get("/api/articles").expect(200);
+    expect(Array.isArray(res.body.articles)).toEqual(true);
+    expect(res.body.articles.length).toBe(12);
+    expect(typeof res.body.articles[0]).toEqual("object");
+    expect(res.body.articles[0]).toMatchObject({
+      author: expect.any(String),
+      title: expect.any(String),
+      article_id: expect.any(Number),
+      body: expect.any(String),
+      topic: expect.any(String),
+      created_at: expect.any(String),
+      votes: expect.any(Number),
+      comment_count: expect.any(Number),
+    });
+  });
+});
