@@ -336,4 +336,11 @@ describe("POST /api/articles/:article_id/comments", () => {
       }).length
     ).toBe(1);
   });
+  test("404: returns Article not found message when passed a valid but non-existent article_id", async () => {
+    const res = await request(app)
+      .post("/api/articles/101/comments")
+      .send({ username: "lurker", body: "Living his best pug life" })
+      .expect(404);
+    expect(res.body.msg).toBe("Article not found");
+  });
 });

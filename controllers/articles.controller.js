@@ -55,6 +55,7 @@ exports.addCommentToArticle = async (req, res, next) => {
   const { article_id } = req.params;
   const comment = req.body;
   try {
+    await fetchArticleById(article_id);
     const postedComment = await postComment(article_id, comment);
     res.status(200).send(postedComment);
   } catch (err) {
