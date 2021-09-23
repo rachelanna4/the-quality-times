@@ -357,4 +357,16 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(400);
     expect(res.body.msg).toBe("Bad request");
   });
+  test("400: returns Bad request message when username and/or body parameter is not specified", async () => {
+    const res = await request(app)
+      .post("/api/articles/1/comments")
+      .send({ username: "lurker" })
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+    const res2 = await request(app)
+      .post("/api/articles/1/comments")
+      .send({ body: "Living his best pug life" })
+      .expect(400);
+    expect(res2.body.msg).toBe("Bad request");
+  });
 });
