@@ -240,13 +240,13 @@ describe("GET /api/articles", () => {
     expect(res.body.articles.length).toBe(3);
     expect(res.body.articles[0].author).toBe("rogersop");
   });
-  // test("200: returns an empty array when a valid author is passed in but has no associated articles", async () => {
-  //   const res = await request(app)
-  //     .get("/api/articles?author=lurker")
-  //     .expect(200);
-  //   expect(Array.isArray(res.body.articles)).toBe(true);
-  //   expect(res.body.articles.length).toBe(0);
-  // });
+  test("200: returns an empty array when a valid author is passed in but has no associated articles", async () => {
+    const res = await request(app)
+      .get("/api/articles?author=lurker")
+      .expect(200);
+    expect(Array.isArray(res.body.articles)).toBe(true);
+    expect(res.body.articles.length).toBe(0);
+  });
   test("400: returns bad request message when invalid sort_by query passed in", async () => {
     const res = await request(app)
       .get("/api/articles?sort_by=not_a_column")
