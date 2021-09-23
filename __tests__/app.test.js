@@ -386,3 +386,10 @@ describe("POST /api/articles/:article_id/comments", () => {
     expect(res.body.msg).toBe("Bad request");
   });
 });
+
+describe("GET /api", () => {
+  test("200: responds with an object", async () => {
+    const res = await request(app).get("/api").expect(200);
+    expect(typeof res.body).toEqual("object");
+  });
+});
