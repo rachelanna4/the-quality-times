@@ -418,8 +418,8 @@ describe("GET /api", () => {
     const res = await request(app).get("/api").expect(200);
     expect(typeof res.body).toBe("object");
   });
-  // test("200: returned object contains all available endpoints", async () => {
-  //   const res = await request(app).get("/api").expect(200);
-  //   expect(Object.keys(res.body).length).toBe(7);
-  // });
+  test("200: returned object contains all available endpoints", async () => {
+    const res = await request(app).get("/api").expect(200);
+    expect(Object.keys(res.body).length).toBe(7);
+  });
 });
