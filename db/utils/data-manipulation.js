@@ -5,3 +5,9 @@ exports.fetchData = (data, ...args) => {
     });
   });
 };
+
+exports.createStringOfLength = (length) => {
+  let string = "A";
+
+  return string.repeat(length);
+};

@@ -1,4 +1,7 @@
-const { fetchData } = require("../db/utils/data-manipulation");
+const {
+  fetchData,
+  createStringOfLength,
+} = require("../db/utils/data-manipulation");
 
 describe("fetchData", () => {
   test("returns an empty array when passed an empty array", () => {
@@ -90,5 +93,11 @@ describe("fetchData", () => {
     ];
     fetchData(array, "description", "slug");
     expect(array).toEqual(expectedArray);
+  });
+});
+
+describe("createStringOfLength", () => {
+  test("returns an empty string when passed number 0", () => {
+    expect(createStringOfLength(0)).toBe("");
   });
 });
