@@ -88,3 +88,17 @@ exports.fetchCommentsByArticle = async (article_id) => {
 
   return result.rows;
 };
+
+exports.postComment = async (article_id) => {};
+
+// Request body accepts:
+
+// - an object with the following properties:
+//   - `username`
+//   - `body`
+
+// Responds with:
+
+// - the posted comment
+
+// ---

@@ -1,8 +1,10 @@
+const { post } = require("superagent");
 const {
   fetchArticleById,
   updateArticleById,
   fetchArticles,
   fetchCommentsByArticle,
+  postComment,
 } = require("../models/articles.model.js");
 
 exports.getArticleById = async (req, res, next) => {
@@ -44,6 +46,17 @@ exports.getCommentsByArticle = async (req, res, next) => {
     await fetchArticleById(article_id);
     const commentData = await fetchCommentsByArticle(article_id);
     res.status(200).send({ comments: commentData });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.addCommentToArticle = async (req, res, next) => {
+  const { article_id } = req.params;
+  const comment = req.body;
+  try {
+    const postedComment = await postComment(article_id, comment);
+    res.status(200).send(postedComment);
   } catch (err) {
     next(err);
   }
