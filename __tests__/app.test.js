@@ -369,4 +369,11 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(400);
     expect(res2.body.msg).toBe("Bad request");
   });
+  test("404: returns User not found when username does not exist", async () => {
+    const res = await request(app)
+      .post("/api/articles/2/comments")
+      .send({ username: "alex", body: "This comment will never be posted" })
+      .expect(404);
+    expect(res.body.msg).toBe("User not found");
+  });
 });

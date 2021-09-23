@@ -96,6 +96,14 @@ exports.postComment = async (article_id, comment) => {
     return Promise.reject({ status: 400, msg: "Bad request" });
   }
 
+  const user = await db.query(`SELECT * FROM users WHERE username = $1`, [
+    username,
+  ]);
+
+  if (user.rows.length === 0) {
+    return Promise.reject({ status: 404, msg: "User not found" });
+  }
+
   const result = await db.query(
     `INSERT INTO comments (author, article_id, body) VALUES ($1, $2, $3) RETURNING *;`,
     [username, article_id, body]
