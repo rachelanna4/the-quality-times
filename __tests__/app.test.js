@@ -287,13 +287,19 @@ describe("GET /api/articles/:article_id/comments", () => {
 });
 
 describe("POST /api/articles/:article_id/comments", () => {
-  test("returns a single comment object", async () => {
-    const res = await request(app).post("/api/articles/1/comments").expect(200);
+  test("returns a single object", async () => {
+    const res = await request(app)
+      .post("/api/articles/3/comments")
+      .send({ username: "do_nothing", body: "Living his best pug life" })
+      .expect(200);
     expect(typeof res.body).toEqual("object");
     expect(Array.isArray(res.body)).toEqual(false);
   });
   test("returned object has the correct keys and correct value data types", async () => {
-    const res = await request(app).post("/api/articles/1/comments").expect(200);
+    const res = await request(app)
+      .post("/api/articles/1/comments")
+      .send({ username: "do_nothing", body: "Living his best pug life" })
+      .expect(200);
     expect(res.body).toMatchObject({
       comment_id: expect.any(Number),
       votes: expect.any(Number),
