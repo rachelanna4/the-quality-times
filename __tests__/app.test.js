@@ -308,4 +308,17 @@ describe("POST /api/articles/:article_id/comments", () => {
       body: expect.any(String),
     });
   });
+  test("returns the correct comment object", async () => {
+    const res = await request(app)
+      .post("/api/articles/1/comments")
+      .send({ username: "lurker", body: "Living his best pug life" })
+      .expect(200);
+    expect(res.body).toMatchObject({
+      comment_id: expect.any(Number),
+      votes: 0,
+      created_at: expect.any(String),
+      author: "lurker",
+      body: "Living his best pug life",
+    });
+  });
 });
