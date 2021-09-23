@@ -1,4 +1,3 @@
-const { post } = require("superagent");
 const {
   fetchArticleById,
   updateArticleById,
