@@ -100,4 +100,8 @@ describe("createStringOfLength", () => {
   test("returns an empty string when passed number 0", () => {
     expect(createStringOfLength(0)).toBe("");
   });
+  test("returns a string of the passed-in length", () => {
+    expect(createStringOfLength(5)).toBe("AAAAA");
+    expect(createStringOfLength(15)).toBe("AAAAAAAAAAAAAAA");
+  });
 });
