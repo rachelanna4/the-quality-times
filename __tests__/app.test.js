@@ -233,13 +233,13 @@ describe("GET /api/articles", () => {
     const res = await request(app).get("/api/articles").expect(200);
     expect(res.body.articles.length).toBe(12);
   });
-  // test("200: returns only the articles associated with a specified author when author is passed in as a parameter", async () => {
-  //   const res = await request(app)
-  //     .get("/api/articles?author=rogersop")
-  //     .expect(200);
-  //   expect(res.body.articles.length).toBe(3);
-  //   expect(res.body.articles[0].author).toBe("rogersop");
-  // });
+  test("200: returns only the articles associated with a specified author when author is passed in as a parameter", async () => {
+    const res = await request(app)
+      .get("/api/articles?author=rogersop")
+      .expect(200);
+    expect(res.body.articles.length).toBe(3);
+    expect(res.body.articles[0].author).toBe("rogersop");
+  });
   // test("200: returns an empty array when a valid author is passed in but has no associated articles", async () => {
   //   const res = await request(app)
   //     .get("/api/articles?author=lurker")

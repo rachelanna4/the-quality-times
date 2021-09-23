@@ -1,4 +1,6 @@
 const db = require("../db/connection.js");
+const { filter } = require("../db/data/test-data/articles.js");
+const articles = require("../db/data/test-data/articles.js");
 
 exports.fetchArticleById = async (article_id) => {
   if (isNaN(article_id)) {
@@ -39,7 +41,8 @@ exports.updateArticleById = async (article_id, inc_votes) => {
 exports.fetchArticles = async (
   sort_by = "created_at",
   order = "desc",
-  topic
+  topic,
+  author
 ) => {
   const validColumns = [
     "author",
@@ -64,10 +67,27 @@ exports.fetchArticles = async (
     return Promise.reject({ status: 404, msg: "Topic not found" });
   }
 
+  const users = await db.query(`SELECT username FROM users;`);
+  const validAuthors = users.rows.map((user) => user.username);
+
+  if (author && !validAuthors.includes(author)) {
+    return Promise.reject({ status: 404, msg: "Topic not found" });
+  }
+
   let queryStr = `SELECT articles.author, title, articles.article_id, articles.body, topic, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id `;
 
+  const filters = [];
   if (topic) {
-    queryStr += `WHERE articles.topic = '${topic}' `;
+    filters.push(`articles.topic = '${topic}'`);
+  }
+
+  if (author) {
+    filters.push(`articles.author = '${author}'`);
+  }
+
+  if (filters.length >= 1) {
+    const queries = filters.join(" AND ");
+    queryStr += `WHERE ${queries} `;
   }
 
   queryStr += `GROUP BY articles.article_id ORDER BY ${sort_by} ${order};`;
