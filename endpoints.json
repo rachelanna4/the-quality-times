@@ -17,13 +17,72 @@
     "exampleResponse": {
       "articles": [
         {
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
+          "title": "What does Jose Mourinho's handwriting say about his personality?",
+          "topic": "football",
           "author": "weegembump",
           "body": "Text from the article..",
-          "created_at": 1527695953341
+          "created_at": 1527695953341,
+          "votes": 0
         }
       ]
+    }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves an object with data relating to the selected article",
+    "queries": [],
+    "exampleResponse": {
+      "author": "happyamy2016",
+      "title": "High Altitude Cooking",
+      "article_id": 28,
+      "body": "Text from the article..",
+      "topic": "cooking",
+      "created_at": 1578097440000,
+      "votes": 0,
+      "comment_count": 10
+    }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "accepts a request object with an inc_votes property, increases or decreases the vote count of the specified article according to this value, and serves the updated article object",
+    "queries": [],
+    "exampleRequest": { "inc_votes": 10 },
+    "exampleResponse": {
+      "author": "happyamy2016",
+      "title": "High Altitude Cooking",
+      "article_id": 28,
+      "body": "Text from the article..",
+      "topic": "cooking",
+      "created_at": 1578097440000,
+      "votes": 10,
+      "comment_count": 10
+    }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves an array of all comments associated with the selected article",
+    "queries": [],
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_id": 15,
+          "votes": 8,
+          "created_at": 1603656480000,
+          "author": "jessjelly",
+          "body": "Text from the comment.."
+        }
+      ]
+    }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "accepts a request with a username and body property, adds a comment to the database with these values, and serves the posted comment object",
+    "exampleRequest": {
+      "username": "happyamy2016",
+      "body": "My new comment..."
+    },
+    "exampleResponse": {
+      "comment_id": 100,
+      "votes": 0,
+      "created_at": 1803656480000,
+      "author": "happyamy2016",
+      "body": "My new comment..."
     }
   }
 }
