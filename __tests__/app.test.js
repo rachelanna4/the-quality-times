@@ -4,6 +4,7 @@ const seed = require("../db/seeds/seed.js");
 const app = require("../app.js");
 const request = require("supertest");
 const { toBeSortedBy } = require("jest-sorted");
+const { createStringOfLength } = require("../db/utils/data-manipulation");
 
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
@@ -375,5 +376,13 @@ describe("POST /api/articles/:article_id/comments", () => {
       .send({ username: "alex", body: "This comment will never be posted" })
       .expect(404);
     expect(res.body.msg).toBe("User not found");
+  });
+  test("400: returns Bad request when comment body is over 500 characters", async () => {
+    const longString = createStringOfLength(501);
+    const res = await request(app)
+      .post("/api/articles/2/comments")
+      .send({ username: "lurker", body: longString })
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
   });
 });
