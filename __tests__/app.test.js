@@ -229,6 +229,24 @@ describe("GET /api/articles", () => {
     expect(Array.isArray(res.body.articles)).toBe(true);
     expect(res.body.articles.length).toBe(0);
   });
+  test("200: all articles are returned when no author parameter is specified", async () => {
+    const res = await request(app).get("/api/articles").expect(200);
+    expect(res.body.articles.length).toBe(12);
+  });
+  // test("200: returns only the articles associated with a specified author when author is passed in as a parameter", async () => {
+  //   const res = await request(app)
+  //     .get("/api/articles?author=rogersop")
+  //     .expect(200);
+  //   expect(res.body.articles.length).toBe(3);
+  //   expect(res.body.articles[0].author).toBe("rogersop");
+  // });
+  // test("200: returns an empty array when a valid author is passed in but has no associated articles", async () => {
+  //   const res = await request(app)
+  //     .get("/api/articles?author=lurker")
+  //     .expect(200);
+  //   expect(Array.isArray(res.body.articles)).toBe(true);
+  //   expect(res.body.articles.length).toBe(0);
+  // });
   test("400: returns bad request message when invalid sort_by query passed in", async () => {
     const res = await request(app)
       .get("/api/articles?sort_by=not_a_column")
@@ -392,4 +410,8 @@ describe("GET /api", () => {
     const res = await request(app).get("/api").expect(200);
     expect(typeof res.body).toBe("object");
   });
+  // test("200: returned object contains all available endpoints", async () => {
+  //   const res = await request(app).get("/api").expect(200);
+  //   expect(Object.keys(res.body).length).toBe(7);
+  // });
 });
