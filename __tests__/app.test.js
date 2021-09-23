@@ -321,4 +321,19 @@ describe("POST /api/articles/:article_id/comments", () => {
       body: "Living his best pug life",
     });
   });
+  test("comment is added to the database", async () => {
+    await request(app)
+      .post("/api/articles/1/comments")
+      .send({ username: "lurker", body: "Living his best pug life" });
+    const res = await request(app).get("/api/articles/1/comments").expect(200);
+    expect(res.body.comments.length).toBe(14);
+    expect(
+      res.body.comments.filter((comment) => {
+        return (
+          comment.author === "lurker" &&
+          comment.body === "Living his best pug life"
+        );
+      }).length
+    ).toBe(1);
+  });
 });
