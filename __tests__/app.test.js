@@ -247,6 +247,14 @@ describe("GET /api/articles", () => {
     expect(Array.isArray(res.body.articles)).toBe(true);
     expect(res.body.articles.length).toBe(0);
   });
+  test("200: returns only articles associated with a particular author on a particular topic when author and topic parameters passed in", async () => {
+    const res = await request(app)
+      .get("/api/articles?author=rogersop&topic=cats")
+      .expect(200);
+    expect(res.body.articles.length).toBe(1);
+    expect(res.body.articles[0].author).toBe("rogersop");
+    expect(res.body.articles[0].topic).toBe("cats");
+  });
   test("400: returns bad request message when invalid sort_by query passed in", async () => {
     const res = await request(app)
       .get("/api/articles?sort_by=not_a_column")
