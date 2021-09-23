@@ -19,8 +19,8 @@ describe("invalid url", () => {
 describe("GET /api/topics", () => {
   test("200: returns an array of objects", async () => {
     const res = await request(app).get("/api/topics").expect(200);
-    expect(Array.isArray(res.body.topics)).toEqual(true);
-    expect(typeof res.body.topics[0]).toEqual("object");
+    expect(Array.isArray(res.body.topics)).toBe(true);
+    expect(typeof res.body.topics[0]).toBe("object");
   });
   test("200: returns an array of correct length", async () => {
     const res = await request(app).get("/api/topics").expect(200);
@@ -48,8 +48,8 @@ describe("GET /api/topics", () => {
 describe("GET /api/articles/:article_id", () => {
   test("200: return a single object", async () => {
     const res = await request(app).get("/api/articles/2").expect(200);
-    expect(typeof res.body).toEqual("object");
-    expect(Array.isArray(res.body)).toEqual(false);
+    expect(typeof res.body).toBe("object");
+    expect(Array.isArray(res.body)).toBe(false);
   });
   test("200: object returned has correct keys and correct value data types", async () => {
     const res = await request(app).get("/api/articles/1").expect(200);
@@ -106,8 +106,8 @@ describe("PATCH /api/articles/:article_id", () => {
       .patch("/api/articles/1")
       .send({ inc_votes: 1 })
       .expect(200);
-    expect(typeof res.body).toEqual("object");
-    expect(Array.isArray(res.body)).toEqual(false);
+    expect(typeof res.body).toBe("object");
+    expect(Array.isArray(res.body)).toBe(false);
   });
   test("200: object returned has correct keys and correct value data types", async () => {
     const res = await request(app)
@@ -169,8 +169,8 @@ describe("PATCH /api/articles/:article_id", () => {
 describe("GET /api/articles", () => {
   test("200: returns an array of article objects", async () => {
     const res = await request(app).get("/api/articles").expect(200);
-    expect(Array.isArray(res.body.articles)).toEqual(true);
-    expect(typeof res.body.articles[0]).toEqual("object");
+    expect(Array.isArray(res.body.articles)).toBe(true);
+    expect(typeof res.body.articles[0]).toBe("object");
     expect(res.body.articles[0]).toMatchObject({
       author: expect.any(String),
       title: expect.any(String),
@@ -252,13 +252,13 @@ describe("GET /api/articles", () => {
 describe("GET /api/articles/:article_id/comments", () => {
   test("200: returns an array of all comment objects associated with the specified article", async () => {
     const res = await request(app).get("/api/articles/1/comments").expect(200);
-    expect(Array.isArray(res.body.comments)).toEqual(true);
+    expect(Array.isArray(res.body.comments)).toBe(true);
     expect(res.body.comments.length).toBe(13);
-    expect(typeof res.body.comments[0]).toEqual("object");
+    expect(typeof res.body.comments[0]).toBe("object");
   });
   test("200: returns an empty array if there are no comments associated with specified article", async () => {
     const res = await request(app).get("/api/articles/2/comments").expect(200);
-    expect(Array.isArray(res.body.comments)).toEqual(true);
+    expect(Array.isArray(res.body.comments)).toBe(true);
     expect(res.body.comments.length).toBe(0);
   });
   test("200: comment objects returned have correct keys and correct value data types", async () => {
@@ -293,8 +293,8 @@ describe("POST /api/articles/:article_id/comments", () => {
       .post("/api/articles/3/comments")
       .send({ username: "lurker", body: "Living his best pug life" })
       .expect(200);
-    expect(typeof res.body).toEqual("object");
-    expect(Array.isArray(res.body)).toEqual(false);
+    expect(typeof res.body).toBe("object");
+    expect(Array.isArray(res.body)).toBe(false);
   });
   test("returned object has the correct keys and correct value data types", async () => {
     const res = await request(app)
@@ -390,6 +390,6 @@ describe("POST /api/articles/:article_id/comments", () => {
 describe("GET /api", () => {
   test("200: responds with an object", async () => {
     const res = await request(app).get("/api").expect(200);
-    expect(typeof res.body).toEqual("object");
+    expect(typeof res.body).toBe("object");
   });
 });
