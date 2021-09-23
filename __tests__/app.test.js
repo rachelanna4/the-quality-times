@@ -343,4 +343,11 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(404);
     expect(res.body.msg).toBe("Article not found");
   });
+  test("400: returns Bad request message when passed an invalid article_id", async () => {
+    const res = await request(app)
+      .post("/api/articles/invalid_id/comments")
+      .send({ username: "lurker", body: "Living his best pug life" })
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
 });
