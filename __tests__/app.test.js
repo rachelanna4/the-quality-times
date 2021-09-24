@@ -20,7 +20,7 @@ describe("GET /api/topics", () => {
   test("200: returns an array of objects", async () => {
     const res = await request(app).get("/api/topics").expect(200);
     expect(Array.isArray(res.body.topics)).toBe(true);
-    expect(typeof res.body.topics[0]).toBe("object");
+    res.body.topics.forEach((topic) => expect(typeof topic).toBe("object"));
   });
 
   test("200: returns an array of correct length", async () => {
@@ -189,17 +189,21 @@ describe("GET /api/articles", () => {
   test("200: returns an array of article objects", async () => {
     const res = await request(app).get("/api/articles").expect(200);
     expect(Array.isArray(res.body.articles)).toBe(true);
-    expect(typeof res.body.articles[0]).toBe("object");
-    expect(res.body.articles[0]).toMatchObject({
-      author: expect.any(String),
-      title: expect.any(String),
-      article_id: expect.any(Number),
-      body: expect.any(String),
-      topic: expect.any(String),
-      created_at: expect.any(String),
-      votes: expect.any(Number),
-      comment_count: expect.any(Number),
-    });
+    res.body.articles.forEach((article) =>
+      expect(typeof article).toBe("object")
+    );
+    res.body.articles.forEach((article) =>
+      expect(article).toMatchObject({
+        author: expect.any(String),
+        title: expect.any(String),
+        article_id: expect.any(Number),
+        body: expect.any(String),
+        topic: expect.any(String),
+        created_at: expect.any(String),
+        votes: expect.any(Number),
+        comment_count: expect.any(Number),
+      })
+    );
   });
 
   test("200: returned object has expected comment_count value", async () => {
@@ -245,9 +249,9 @@ describe("GET /api/articles", () => {
   });
 
   test("200: returns only the articles associated with the specified topic when topic is passed in as a parameter", async () => {
-    const res = await request(app).get("/api/articles?topic=cats").expect(200);
-    expect(res.body.articles.length).toBe(1);
-    expect(res.body.articles[0].topic).toBe("cats");
+    const res = await request(app).get("/api/articles?topic=mitch").expect(200);
+    expect(res.body.articles.length).toBe(11);
+    res.body.articles.forEach((article) => expect(article.topic).toBe("mitch"));
   });
 
   test("200: returns an empty array when a valid topic is passed in but has no associated articles", async () => {
@@ -266,7 +270,9 @@ describe("GET /api/articles", () => {
       .get("/api/articles?author=rogersop")
       .expect(200);
     expect(res.body.articles.length).toBe(3);
-    expect(res.body.articles[0].author).toBe("rogersop");
+    res.body.articles.forEach((article) =>
+      expect(article.author).toBe("rogersop")
+    );
   });
 
   test("200: returns an empty array when a valid author is passed in but has no associated articles", async () => {
@@ -279,11 +285,13 @@ describe("GET /api/articles", () => {
 
   test("200: returns only articles associated with a particular author on a particular topic when author and topic parameters passed in", async () => {
     const res = await request(app)
-      .get("/api/articles?author=rogersop&topic=cats")
+      .get("/api/articles?author=icellusedkars&topic=mitch")
       .expect(200);
-    expect(res.body.articles.length).toBe(1);
-    expect(res.body.articles[0].author).toBe("rogersop");
-    expect(res.body.articles[0].topic).toBe("cats");
+    expect(res.body.articles.length).toBe(6);
+    res.body.articles.forEach((article) =>
+      expect(article.author).toBe("icellusedkars")
+    );
+    res.body.articles.forEach((article) => expect(article.topic).toBe("mitch"));
   });
 
   test("400: returns bad request message when invalid sort_by query passed in", async () => {
@@ -313,7 +321,9 @@ describe("GET /api/articles/:article_id/comments", () => {
     const res = await request(app).get("/api/articles/1/comments").expect(200);
     expect(Array.isArray(res.body.comments)).toBe(true);
     expect(res.body.comments.length).toBe(13);
-    expect(typeof res.body.comments[0]).toBe("object");
+    res.body.comments.forEach((comment) =>
+      expect(typeof comment).toBe("object")
+    );
   });
 
   test("200: returns an empty array if there are no comments associated with specified article", async () => {
