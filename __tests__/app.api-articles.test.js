@@ -135,7 +135,7 @@ describe("PATCH /api/articles/:article_id", () => {
     expect(res.body.msg).toBe("Bad request");
   });
 
-  test("400: when passed an invalid inc_votes parameter", async () => {
+  test("400: when passed an invalid inc_votes property", async () => {
     const res = await request(app)
       .patch("/api/articles/4")
       .send({ inc_votes: "invalid string" })

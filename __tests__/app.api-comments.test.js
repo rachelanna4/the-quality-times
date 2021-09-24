@@ -110,7 +110,7 @@ describe("PATCH /api/comments/:comment_id", () => {
     expect(res.body.msg).toBe("Bad request");
   });
 
-  test("400: when passed an invalid inc_votes parameter", async () => {
+  test("400: when passed an invalid inc_votes property", async () => {
     const res = await request(app)
       .patch("/api/comments/3")
       .send({ inc_votes: "invalid string" })
