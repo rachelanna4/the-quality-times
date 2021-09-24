@@ -447,4 +447,22 @@ describe("DELETE /api/comments/:comment_id", () => {
     const res = await request(app).delete("/api/comments/1").expect(204);
     expect(res.text).toBe("");
   });
+  test("204: comment is deleted from database", async () => {
+    const commentsResponse = await request(app)
+      .get("/api/articles/1/comments")
+      .expect(200);
+    const commentId = commentsResponse.body.comments[0].comment_id;
+    const commentAmount = commentsResponse.body.comments.length;
+    await request(app).delete(`/api/comments/${commentId}`).expect(204);
+    const newCommentsResponse = await request(app)
+      .get("/api/articles/1/comments")
+      .expect(200);
+    expect(newCommentsResponse.body.comments.length).toBe(commentAmount - 1);
+    const remainingCommentIds = newCommentsResponse.body.comments.map(
+      (comment) => {
+        return comment.comment_id;
+      }
+    );
+    expect(remainingCommentIds.includes(commentId)).toBe(false);
+  });
 });
