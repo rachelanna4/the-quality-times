@@ -1,6 +1,4 @@
 const db = require("../db/connection.js");
-const { filter } = require("../db/data/test-data/articles.js");
-const articles = require("../db/data/test-data/articles.js");
 
 exports.fetchArticleById = async (article_id) => {
   if (isNaN(article_id)) {
