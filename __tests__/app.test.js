@@ -360,20 +360,20 @@ describe("GET /api/articles/:article_id/comments", () => {
 });
 
 describe("POST /api/articles/:article_id/comments", () => {
-  test("returns a single object", async () => {
+  test("201: returns a single object", async () => {
     const res = await request(app)
       .post("/api/articles/3/comments")
       .send({ username: "lurker", body: "Living his best pug life" })
-      .expect(200);
+      .expect(201);
     expect(typeof res.body.comment).toBe("object");
     expect(Array.isArray(res.body.comment)).toBe(false);
   });
 
-  test("returned object has the correct keys and correct value data types", async () => {
+  test("201: returned object has the correct keys and correct value data types", async () => {
     const res = await request(app)
       .post("/api/articles/1/comments")
       .send({ username: "lurker", body: "Living his best pug life" })
-      .expect(200);
+      .expect(201);
     expect(res.body.comment).toMatchObject({
       comment_id: expect.any(Number),
       votes: expect.any(Number),
@@ -383,11 +383,11 @@ describe("POST /api/articles/:article_id/comments", () => {
     });
   });
 
-  test("returns the correct comment object", async () => {
+  test("201: returns the correct comment object", async () => {
     const res = await request(app)
       .post("/api/articles/1/comments")
       .send({ username: "lurker", body: "Living his best pug life" })
-      .expect(200);
+      .expect(201);
     expect(res.body.comment).toMatchObject({
       comment_id: expect.any(Number),
       votes: 0,
@@ -397,10 +397,11 @@ describe("POST /api/articles/:article_id/comments", () => {
     });
   });
 
-  test("comment is added to the database", async () => {
+  test("201: comment is added to the database", async () => {
     await request(app)
       .post("/api/articles/1/comments")
-      .send({ username: "lurker", body: "Living his best pug life" });
+      .send({ username: "lurker", body: "Living his best pug life" })
+      .expect(201);
     const res = await request(app).get("/api/articles/1/comments").expect(200);
     expect(res.body.comments.length).toBe(14);
     expect(
