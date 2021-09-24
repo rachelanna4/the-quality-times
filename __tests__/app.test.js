@@ -430,14 +430,6 @@ describe("POST /api/articles/:article_id/comments", () => {
     expect(res.body.msg).toBe("Bad request");
   });
 
-  test("400: returns Bad request message when passed an invalid article_id", async () => {
-    const res = await request(app)
-      .post("/api/articles/invalid_id/comments")
-      .send({ username: "lurker", body: "Living his best pug life" })
-      .expect(400);
-    expect(res.body.msg).toBe("Bad request");
-  });
-
   test("400: returns Bad request message when username and/or body parameter is not specified", async () => {
     const res = await request(app)
       .post("/api/articles/1/comments")
