@@ -86,6 +86,14 @@ describe("PATCH /api/comments/:comment_id", () => {
     expect(res.body.comment.votes).toBe(12);
   });
 
+  test("200: ignores any extra parameters passed in", async () => {
+    const res = await request(app)
+      .patch("/api/comments/2")
+      .send({ inc_votes: 1, extra_property: "ignore me" })
+      .expect(200);
+    expect(res.body.comment).not.toHaveProperty("extra_property");
+  });
+
   test("404: when passed a valid but non-existent comment_id", async () => {
     const res = await request(app)
       .patch("/api/comments/350")
