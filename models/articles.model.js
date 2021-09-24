@@ -18,7 +18,7 @@ exports.fetchArticleById = async (article_id) => {
 exports.updateArticleVotesById = async (article_id, userRequest) => {
   const requestedUpdates = Object.keys(userRequest);
 
-  if (requestedUpdates.length > 1 || !requestedUpdates.includes("inc_votes")) {
+  if (!requestedUpdates.includes("inc_votes")) {
     return Promise.reject({ status: 400, msg: "Bad request" });
   }
 

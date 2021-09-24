@@ -111,6 +111,14 @@ describe("PATCH /api/articles/:article_id", () => {
     expect(res.body.article.votes).toBe(60);
   });
 
+  test("200: ignores any extra parameters passed in", async () => {
+    const res = await request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: 1, another_property: "ignore me" })
+      .expect(200);
+    expect(res.body.article).not.toHaveProperty("another_property");
+  });
+
   test("404: when passed a valid but non-existent article_id", async () => {
     const res = await request(app)
       .patch("/api/articles/85")
@@ -138,11 +146,6 @@ describe("PATCH /api/articles/:article_id", () => {
       .send({})
       .expect(400);
     expect(res2.body.msg).toBe("Bad request");
-    const res3 = await request(app)
-      .patch("/api/articles/1")
-      .send({ inc_votes: 1, another_property: "this is not permitted" })
-      .expect(400);
-    expect(res3.body.msg).toBe("Bad request");
   });
 });
 
