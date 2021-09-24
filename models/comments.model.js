@@ -1,6 +1,9 @@
 const db = require("../db/connection.js");
 
 exports.removeComment = async (comment_id) => {
+  if (isNaN(comment_id)) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
   const existingComments = await db.query(`SELECT comment_id FROM comments;`);
 
   const validCommentIds = existingComments.rows.map((comment) => {

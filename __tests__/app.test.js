@@ -469,4 +469,10 @@ describe("DELETE /api/comments/:comment_id", () => {
     const res = await request(app).delete("/api/comments/250").expect(404);
     expect(res.body.msg).toBe("Comment not found");
   });
+  test("400: returns Bad request message when passed an invalid comment id", async () => {
+    const res = await request(app)
+      .delete("/api/comments/not_a_valid_id")
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
 });
