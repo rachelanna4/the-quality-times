@@ -77,4 +77,12 @@ describe("PATCH /api/comments/:comment_id", () => {
       .expect(200);
     expect(res.body.comment.votes).toBe(15);
   });
+
+  test("200: object returned has votes property decreased when passed a inc_votes value of < 0", async () => {
+    const res = await request(app)
+      .patch("/api/comments/2")
+      .send({ inc_votes: -2 })
+      .expect(200);
+    expect(res.body.comment.votes).toBe(12);
+  });
 });
