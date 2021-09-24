@@ -18,8 +18,8 @@ const createTables = async () => {
   await db.query(
     `CREATE TABLE users (
       username VARCHAR(20) NOT NULL PRIMARY KEY, 
-      avatar_url VARCHAR(500), 
-      name VARCHAR (30) 
+      avatar_url VARCHAR(500) NOT NULL, 
+      name VARCHAR (30) NOT NULL 
       );`
   );
 
