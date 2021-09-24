@@ -9,10 +9,14 @@ const {
   addCommentToArticle,
 } = require("../controllers/articles.controller.js");
 
-articlesRouter.get("/:article_id", getArticleById);
-articlesRouter.patch("/:article_id", patchArticleById);
+articlesRouter
+  .route("/:article_id")
+  .get(getArticleById)
+  .patch(patchArticleById);
+articlesRouter
+  .route("/:article_id/comments")
+  .get(getCommentsByArticle)
+  .post(addCommentToArticle);
 articlesRouter.get("/", getArticles);
-articlesRouter.get("/:article_id/comments", getCommentsByArticle);
-articlesRouter.post("/:article_id/comments", addCommentToArticle);
 
 module.exports = articlesRouter;
