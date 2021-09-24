@@ -476,3 +476,14 @@ describe("DELETE /api/comments/:comment_id", () => {
     expect(res.body.msg).toBe("Bad request");
   });
 });
+
+describe("GET /api/users", () => {
+  test("returns an array of all user objects", async () => {
+    const res = await request(app).get("/api/users").expect(200);
+    expect(Array.isArray(res.body.users)).toBe(true);
+    expect(res.body.users.length).toBe(4);
+    res.body.users.forEach((user) => {
+      expect(typeof user).toBe("object");
+    });
+  });
+});
