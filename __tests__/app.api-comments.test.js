@@ -44,3 +44,14 @@ describe("DELETE /api/comments/:comment_id", () => {
     expect(res.body.msg).toBe("Bad request");
   });
 });
+
+describe("PATCH /api/comments/:comment_id", () => {
+  test("200: returns the updated comment as a single object", async () => {
+    const res = await request(app)
+      .patch("/api/comments/2")
+      .send({ inc_votes: 1 })
+      .expect(200);
+    expect(typeof res.body.comment).toBe("object");
+    expect(Array.isArray(res.body.comment)).toBe(false);
+  });
+});
