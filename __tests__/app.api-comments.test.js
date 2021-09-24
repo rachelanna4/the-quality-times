@@ -54,6 +54,7 @@ describe("PATCH /api/comments/:comment_id", () => {
     expect(typeof res.body.comment).toBe("object");
     expect(Array.isArray(res.body.comment)).toBe(false);
   });
+
   test("200: comment object returned has correct keys and correct value data types", async () => {
     const res = await request(app)
       .patch("/api/comments/2")
@@ -67,5 +68,13 @@ describe("PATCH /api/comments/:comment_id", () => {
       article_id: expect.any(Number),
       created_at: expect.any(String),
     });
+  });
+
+  test("200: object returned has votes property increased when passed a inc_votes value of >= 1", async () => {
+    const res = await request(app)
+      .patch("/api/comments/2")
+      .send({ inc_votes: 1 })
+      .expect(200);
+    expect(res.body.comment.votes).toBe(15);
   });
 });
