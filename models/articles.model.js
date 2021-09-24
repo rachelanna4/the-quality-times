@@ -52,7 +52,6 @@ exports.fetchArticles = async (
     "author",
     "title",
     "article_id",
-    "body",
     "topic",
     "created_at",
     "votes",
@@ -78,7 +77,7 @@ exports.fetchArticles = async (
     return Promise.reject({ status: 404, msg: "Topic not found" });
   }
 
-  let queryStr = `SELECT articles.author, title, articles.article_id, articles.body, topic, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id `;
+  let queryStr = `SELECT articles.author, title, articles.article_id, topic, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id `;
 
   const filters = [];
   if (topic) {
