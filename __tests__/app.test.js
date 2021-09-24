@@ -506,8 +506,17 @@ describe("GET /api/users/:username", () => {
     expect(Array.isArray(res.body)).toBe(false);
     expect(res.body).toMatchObject({
       username: expect.any(String),
-      avatar_url: expect.any(String),
       name: expect.any(String),
+      avatar_url: expect.any(String),
+    });
+  });
+  test("200: user object contains expected property values", async () => {
+    const res = await request(app).get("/api/users/butter_bridge").expect(200);
+    expect(res.body).toEqual({
+      username: "butter_bridge",
+      name: "jonny",
+      avatar_url:
+        "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
     });
   });
 });
