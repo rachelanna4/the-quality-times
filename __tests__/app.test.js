@@ -441,3 +441,10 @@ describe("GET /api", () => {
     });
   });
 });
+
+describe("DELETE /api/comments/:comment_id", () => {
+  test("204: responds with no content when an existing comment is deleted ", async () => {
+    const res = await request(app).delete("/api/comments/1").expect(204);
+    expect(res.text).toBe("");
+  });
+});
