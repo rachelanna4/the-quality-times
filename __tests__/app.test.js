@@ -397,6 +397,25 @@ describe("POST /api/articles/:article_id/comments", () => {
     });
   });
 
+  test("201: ignores any extra parameters included in request body", async () => {
+    const res = await request(app)
+      .post("/api/articles/1/comments")
+      .send({
+        username: "lurker",
+        body: "Living his best pug life",
+        extra: "ignore me",
+      })
+      .expect(201);
+    expect(res.body.comment).toMatchObject({
+      comment_id: expect.any(Number),
+      votes: 0,
+      created_at: expect.any(String),
+      author: "lurker",
+      body: "Living his best pug life",
+    });
+    expect(res.body.comment).not.toHaveProperty("extra");
+  });
+
   test("201: comment is added to the database", async () => {
     await request(app)
       .post("/api/articles/1/comments")
