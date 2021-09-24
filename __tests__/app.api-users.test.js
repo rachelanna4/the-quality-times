@@ -50,4 +50,9 @@ describe("GET /api/users/:username", () => {
         "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
     });
   });
+
+  test("404: returns User not found message when passed a non-existent username", async () => {
+    const res = await request(app).get("/api/users/1234").expect(404);
+    expect(res.body.msg).toBe("User not found");
+  });
 });
