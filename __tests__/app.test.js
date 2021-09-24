@@ -22,10 +22,12 @@ describe("GET /api/topics", () => {
     expect(Array.isArray(res.body.topics)).toBe(true);
     expect(typeof res.body.topics[0]).toBe("object");
   });
+
   test("200: returns an array of correct length", async () => {
     const res = await request(app).get("/api/topics").expect(200);
     expect(res.body.topics.length).toBe(3);
   });
+
   test("200: returns an array of objects containing the correct keys and correct value data types", async () => {
     const res = await request(app).get("/api/topics").expect(200);
     expect(res.body.topics.length).toBeGreaterThanOrEqual(1);
@@ -36,6 +38,7 @@ describe("GET /api/topics", () => {
       });
     });
   });
+
   test("200: returns an array containing the expected topics", async () => {
     const res = await request(app).get("/api/topics").expect(200);
     expect(res.body.topics[0]).toEqual({
@@ -48,12 +51,13 @@ describe("GET /api/topics", () => {
 describe("GET /api/articles/:article_id", () => {
   test("200: return a single object", async () => {
     const res = await request(app).get("/api/articles/2").expect(200);
-    expect(typeof res.body).toBe("object");
-    expect(Array.isArray(res.body)).toBe(false);
+    expect(typeof res.body.article).toBe("object");
+    expect(Array.isArray(res.body.article)).toBe(false);
   });
+
   test("200: object returned has correct keys and correct value data types", async () => {
     const res = await request(app).get("/api/articles/1").expect(200);
-    expect(res.body).toMatchObject({
+    expect(res.body.article).toMatchObject({
       author: expect.any(String),
       title: expect.any(String),
       article_id: expect.any(Number),
@@ -64,9 +68,10 @@ describe("GET /api/articles/:article_id", () => {
       comment_count: expect.any(Number),
     });
   });
+
   test("200: returns an object containing the expected article data", async () => {
     const res = await request(app).get("/api/articles/1").expect(200);
-    expect(res.body).toEqual({
+    expect(res.body.article).toEqual({
       author: "butter_bridge",
       title: "Living in the shadow of a great man",
       article_id: 1,
@@ -77,9 +82,10 @@ describe("GET /api/articles/:article_id", () => {
       comment_count: 13,
     });
   });
+
   test("200: returns an object with comment_count property of 0 when an article does not have any associated comments", async () => {
     const res = await request(app).get("/api/articles/4").expect(200);
-    expect(res.body).toEqual({
+    expect(res.body.article).toEqual({
       author: "rogersop",
       title: "Student SUES Mitch!",
       article_id: 4,
@@ -90,10 +96,12 @@ describe("GET /api/articles/:article_id", () => {
       comment_count: 0,
     });
   });
+
   test("400: when passed a non-valid article_id", async () => {
     const res = await request(app).get("/api/articles/invalid_id").expect(400);
     expect(res.body.msg).toBe("Bad request");
   });
+
   test("404: when passed a valid but non-existent article_id", async () => {
     const res = await request(app).get("/api/articles/92").expect(404);
     expect(res.body.msg).toBe("Article not found");
@@ -106,15 +114,16 @@ describe("PATCH /api/articles/:article_id", () => {
       .patch("/api/articles/1")
       .send({ inc_votes: 1 })
       .expect(200);
-    expect(typeof res.body).toBe("object");
-    expect(Array.isArray(res.body)).toBe(false);
+    expect(typeof res.body.article).toBe("object");
+    expect(Array.isArray(res.body.article)).toBe(false);
   });
+
   test("200: object returned has correct keys and correct value data types", async () => {
     const res = await request(app)
       .patch("/api/articles/1")
       .send({ inc_votes: 1 })
       .expect(200);
-    expect(res.body).toMatchObject({
+    expect(res.body.article).toMatchObject({
       article_id: expect.any(Number),
       title: expect.any(String),
       body: expect.any(String),
@@ -124,20 +133,23 @@ describe("PATCH /api/articles/:article_id", () => {
       created_at: expect.any(String),
     });
   });
-  test("200: object returned has count property increased when passed a inc_votes value of >= 1", async () => {
+
+  test("200: object returned has votes property increased when passed a inc_votes value of >= 1", async () => {
     const res = await request(app)
       .patch("/api/articles/1")
       .send({ inc_votes: 1 })
       .expect(200);
-    expect(res.body.votes).toBe(101);
+    expect(res.body.article.votes).toBe(101);
   });
-  test("200: object returned has count property decreased when passed a inc_votes value of < 0", async () => {
+
+  test("200: object returned has votes property decreased when passed a inc_votes value of < 0", async () => {
     const res = await request(app)
       .patch("/api/articles/1")
       .send({ inc_votes: -40 })
       .expect(200);
-    expect(res.body.votes).toBe(60);
+    expect(res.body.article.votes).toBe(60);
   });
+
   test("404: when passed a valid but non-existent article_id", async () => {
     const res = await request(app)
       .patch("/api/articles/85")
@@ -145,6 +157,7 @@ describe("PATCH /api/articles/:article_id", () => {
       .expect(404);
     expect(res.body.msg).toBe("Article not found");
   });
+
   test("400: when passed a non-valid article_id", async () => {
     const res = await request(app)
       .patch("/api/articles/invalid_id")
@@ -152,6 +165,7 @@ describe("PATCH /api/articles/:article_id", () => {
       .expect(400);
     expect(res.body.msg).toBe("Bad request");
   });
+
   test("400: when passed an invalid inc_votes parameter", async () => {
     const res = await request(app)
       .patch("/api/articles/4")
@@ -187,6 +201,7 @@ describe("GET /api/articles", () => {
       comment_count: expect.any(Number),
     });
   });
+
   test("200: returned object has expected comment_count value", async () => {
     const res = await request(app).get("/api/articles/").expect(200);
     const article1 = res.body.articles.find(
@@ -198,10 +213,12 @@ describe("GET /api/articles", () => {
     );
     expect(article4.comment_count).toBe(0);
   });
+
   test("200: returned articles are returned sorted by date in descending order by default", async () => {
     const res = await request(app).get("/api/articles/").expect(200);
     expect(res.body.articles).toBeSortedBy("created_at", { descending: true });
   });
+
   test("200: returned articles are returned sorted by a column specified by the user in descending order by default", async () => {
     const res = await request(app)
       .get("/api/articles?sort_by=votes")
@@ -212,6 +229,7 @@ describe("GET /api/articles", () => {
       .expect(200);
     expect(res2.body.articles).toBeSortedBy("title", { descending: true });
   });
+
   test("200: returned articles are returned sorted in ascending order when specified by the user in the passed-in order parameter", async () => {
     const res = await request(app).get("/api/articles?order=asc").expect(200);
     expect(res.body.articles).toBeSortedBy("created_at", { ascending: true });
@@ -220,24 +238,29 @@ describe("GET /api/articles", () => {
       .expect(200);
     expect(res2.body.articles).toBeSortedBy("author", { ascending: true });
   });
+
   test("200: all articles are returned when no topic parameter is specified", async () => {
     const res = await request(app).get("/api/articles").expect(200);
     expect(res.body.articles.length).toBe(12);
   });
+
   test("200: returns only the articles associated with the specified topic when topic is passed in as a parameter", async () => {
     const res = await request(app).get("/api/articles?topic=cats").expect(200);
     expect(res.body.articles.length).toBe(1);
     expect(res.body.articles[0].topic).toBe("cats");
   });
+
   test("200: returns an empty array when a valid topic is passed in but has no associated articles", async () => {
     const res = await request(app).get("/api/articles?topic=paper").expect(200);
     expect(Array.isArray(res.body.articles)).toBe(true);
     expect(res.body.articles.length).toBe(0);
   });
+
   test("200: all articles are returned when no author parameter is specified", async () => {
     const res = await request(app).get("/api/articles").expect(200);
     expect(res.body.articles.length).toBe(12);
   });
+
   test("200: returns only the articles associated with a specified author when author is passed in as a parameter", async () => {
     const res = await request(app)
       .get("/api/articles?author=rogersop")
@@ -245,6 +268,7 @@ describe("GET /api/articles", () => {
     expect(res.body.articles.length).toBe(3);
     expect(res.body.articles[0].author).toBe("rogersop");
   });
+
   test("200: returns an empty array when a valid author is passed in but has no associated articles", async () => {
     const res = await request(app)
       .get("/api/articles?author=lurker")
@@ -252,6 +276,7 @@ describe("GET /api/articles", () => {
     expect(Array.isArray(res.body.articles)).toBe(true);
     expect(res.body.articles.length).toBe(0);
   });
+
   test("200: returns only articles associated with a particular author on a particular topic when author and topic parameters passed in", async () => {
     const res = await request(app)
       .get("/api/articles?author=rogersop&topic=cats")
@@ -260,18 +285,21 @@ describe("GET /api/articles", () => {
     expect(res.body.articles[0].author).toBe("rogersop");
     expect(res.body.articles[0].topic).toBe("cats");
   });
+
   test("400: returns bad request message when invalid sort_by query passed in", async () => {
     const res = await request(app)
       .get("/api/articles?sort_by=not_a_column")
       .expect(400);
     expect(res.body.msg).toBe("Bad request");
   });
+
   test("400: returns bad request message when invalid order query passed in", async () => {
     const res = await request(app)
       .get("/api/articles?order=diagonal")
       .expect(400);
     expect(res.body.msg).toBe("Bad request");
   });
+
   test("404: returns topic not found message when non-existent topic passed in", async () => {
     const res = await request(app)
       .get("/api/articles?topic=non_existent_topic")
@@ -287,11 +315,13 @@ describe("GET /api/articles/:article_id/comments", () => {
     expect(res.body.comments.length).toBe(13);
     expect(typeof res.body.comments[0]).toBe("object");
   });
+
   test("200: returns an empty array if there are no comments associated with specified article", async () => {
     const res = await request(app).get("/api/articles/2/comments").expect(200);
     expect(Array.isArray(res.body.comments)).toBe(true);
     expect(res.body.comments.length).toBe(0);
   });
+
   test("200: comment objects returned have correct keys and correct value data types", async () => {
     const res = await request(app).get("/api/articles/1/comments").expect(200);
     res.body.comments.forEach((comment) => {
@@ -304,12 +334,14 @@ describe("GET /api/articles/:article_id/comments", () => {
       });
     });
   });
+
   test("404: returns Article not found message when passed a valid but non-existent article_id", async () => {
     const res = await request(app)
       .get("/api/articles/101/comments")
       .expect(404);
     expect(res.body.msg).toBe("Article not found");
   });
+
   test("400: returns Bad request message when passed an invalid article_id", async () => {
     const res = await request(app)
       .get("/api/articles/not_a_valid_id/comments")
@@ -324,15 +356,16 @@ describe("POST /api/articles/:article_id/comments", () => {
       .post("/api/articles/3/comments")
       .send({ username: "lurker", body: "Living his best pug life" })
       .expect(200);
-    expect(typeof res.body).toBe("object");
-    expect(Array.isArray(res.body)).toBe(false);
+    expect(typeof res.body.comment).toBe("object");
+    expect(Array.isArray(res.body.comment)).toBe(false);
   });
+
   test("returned object has the correct keys and correct value data types", async () => {
     const res = await request(app)
       .post("/api/articles/1/comments")
       .send({ username: "lurker", body: "Living his best pug life" })
       .expect(200);
-    expect(res.body).toMatchObject({
+    expect(res.body.comment).toMatchObject({
       comment_id: expect.any(Number),
       votes: expect.any(Number),
       created_at: expect.any(String),
@@ -340,12 +373,13 @@ describe("POST /api/articles/:article_id/comments", () => {
       body: expect.any(String),
     });
   });
+
   test("returns the correct comment object", async () => {
     const res = await request(app)
       .post("/api/articles/1/comments")
       .send({ username: "lurker", body: "Living his best pug life" })
       .expect(200);
-    expect(res.body).toMatchObject({
+    expect(res.body.comment).toMatchObject({
       comment_id: expect.any(Number),
       votes: 0,
       created_at: expect.any(String),
@@ -353,6 +387,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       body: "Living his best pug life",
     });
   });
+
   test("comment is added to the database", async () => {
     await request(app)
       .post("/api/articles/1/comments")
@@ -368,6 +403,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       }).length
     ).toBe(1);
   });
+
   test("404: returns Article not found message when passed a valid but non-existent article_id", async () => {
     const res = await request(app)
       .post("/api/articles/101/comments")
@@ -375,6 +411,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(404);
     expect(res.body.msg).toBe("Article not found");
   });
+
   test("400: returns Bad request message when passed an invalid article_id", async () => {
     const res = await request(app)
       .post("/api/articles/invalid_id/comments")
@@ -382,6 +419,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(400);
     expect(res.body.msg).toBe("Bad request");
   });
+
   test("400: returns Bad request message when passed an invalid article_id", async () => {
     const res = await request(app)
       .post("/api/articles/invalid_id/comments")
@@ -389,6 +427,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(400);
     expect(res.body.msg).toBe("Bad request");
   });
+
   test("400: returns Bad request message when username and/or body parameter is not specified", async () => {
     const res = await request(app)
       .post("/api/articles/1/comments")
@@ -401,6 +440,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(400);
     expect(res2.body.msg).toBe("Bad request");
   });
+
   test("404: returns User not found when username does not exist", async () => {
     const res = await request(app)
       .post("/api/articles/2/comments")
@@ -408,6 +448,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(404);
     expect(res.body.msg).toBe("User not found");
   });
+
   test("400: returns Bad request when comment body is over 500 characters", async () => {
     const longString = createStringOfLength(501);
     const res = await request(app)
@@ -423,6 +464,7 @@ describe("GET /api", () => {
     const res = await request(app).get("/api").expect(200);
     expect(typeof res.body).toBe("object");
   });
+
   test("200: returned object contains all available endpoints", async () => {
     const res = await request(app).get("/api").expect(200);
     const returnedEndpoints = Object.keys(res.body);
@@ -447,6 +489,7 @@ describe("DELETE /api/comments/:comment_id", () => {
     const res = await request(app).delete("/api/comments/1").expect(204);
     expect(res.text).toBe("");
   });
+
   test("204: comment is deleted from database", async () => {
     const commentsResponse = await request(app)
       .get("/api/articles/1/comments")
@@ -465,10 +508,12 @@ describe("DELETE /api/comments/:comment_id", () => {
     );
     expect(remainingCommentIds.includes(commentId)).toBe(false);
   });
+
   test("404: returns Comment not found message when passed a valid but non-existent comment id", async () => {
     const res = await request(app).delete("/api/comments/250").expect(404);
     expect(res.body.msg).toBe("Comment not found");
   });
+
   test("400: returns Bad request message when passed an invalid comment id", async () => {
     const res = await request(app)
       .delete("/api/comments/not_a_valid_id")
@@ -502,17 +547,18 @@ describe("GET /api/users", () => {
 describe("GET /api/users/:username", () => {
   test("200: returns a single user object with the correct keys and value data types", async () => {
     const res = await request(app).get("/api/users/butter_bridge").expect(200);
-    expect(typeof res.body).toBe("object");
-    expect(Array.isArray(res.body)).toBe(false);
-    expect(res.body).toMatchObject({
+    expect(typeof res.body.user).toBe("object");
+    expect(Array.isArray(res.body.user)).toBe(false);
+    expect(res.body.user).toMatchObject({
       username: expect.any(String),
       name: expect.any(String),
       avatar_url: expect.any(String),
     });
   });
+
   test("200: user object contains expected property values", async () => {
     const res = await request(app).get("/api/users/butter_bridge").expect(200);
-    expect(res.body).toEqual({
+    expect(res.body.user).toEqual({
       username: "butter_bridge",
       name: "jonny",
       avatar_url:

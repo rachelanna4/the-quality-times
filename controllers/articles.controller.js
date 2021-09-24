@@ -10,7 +10,7 @@ exports.getArticleById = async (req, res, next) => {
   try {
     const { article_id } = req.params;
     const articleData = await fetchArticleById(article_id);
-    res.status(200).send(articleData);
+    res.status(200).send({ article: articleData });
   } catch (err) {
     next(err);
   }
@@ -23,7 +23,7 @@ exports.patchArticleById = async (req, res, next) => {
     await fetchArticleById(article_id);
     await updateArticleById(article_id, userRequest);
     const patchedArticle = await fetchArticleById(article_id);
-    res.status(200).send(patchedArticle);
+    res.status(200).send({ article: patchedArticle });
   } catch (err) {
     next(err);
   }
@@ -56,7 +56,7 @@ exports.addCommentToArticle = async (req, res, next) => {
   try {
     await fetchArticleById(article_id);
     const postedComment = await postComment(article_id, comment);
-    res.status(200).send(postedComment);
+    res.status(200).send({ comment: postedComment });
   } catch (err) {
     next(err);
   }

@@ -13,7 +13,7 @@ exports.getUserByUsername = async (req, res, next) => {
   const { username } = req.params;
   try {
     const userData = await fetchUserByUsername(username);
-    res.status(200).send(userData);
+    res.status(200).send({ user: userData });
   } catch (err) {
     next(err);
   }
