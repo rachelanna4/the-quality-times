@@ -86,7 +86,7 @@ describe("PATCH /api/comments/:comment_id", () => {
     expect(res.body.comment.votes).toBe(12);
   });
 
-  test("200: ignores any extra parameters passed in", async () => {
+  test("200: ignores any extra properties passed in", async () => {
     const res = await request(app)
       .patch("/api/comments/2")
       .send({ inc_votes: 1, extra_property: "ignore me" })

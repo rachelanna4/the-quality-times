@@ -111,7 +111,7 @@ describe("PATCH /api/articles/:article_id", () => {
     expect(res.body.article.votes).toBe(60);
   });
 
-  test("200: ignores any extra parameters passed in", async () => {
+  test("200: ignores any extra properties passed in", async () => {
     const res = await request(app)
       .patch("/api/articles/1")
       .send({ inc_votes: 1, another_property: "ignore me" })
