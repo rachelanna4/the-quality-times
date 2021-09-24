@@ -1,6 +1,6 @@
 const db = require("../db/connection.js");
 
-exports.removeComment = async (comment_id) => {
+const checkCommentExists = async (comment_id) => {
   const existingComments = await db.query(
     `SELECT comment_id FROM comments WHERE comment_id = $1;`,
     [comment_id]
@@ -8,11 +8,15 @@ exports.removeComment = async (comment_id) => {
   if (existingComments.rows.length === 0) {
     return Promise.reject({ status: 404, msg: "Comment not found" });
   }
+};
 
+exports.removeComment = async (comment_id) => {
+  await checkCommentExists(comment_id);
   await db.query(`DELETE FROM comments WHERE comment_id = $1;`, [comment_id]);
 };
 
 exports.updateCommentVotes = async (comment_id, updateRequest) => {
+  await checkCommentExists(comment_id);
   await db.query(
     "UPDATE comments SET votes = votes + $2 WHERE comment_id = $1;",
     [comment_id, updateRequest.inc_votes]
