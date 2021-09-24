@@ -93,4 +93,12 @@ describe("PATCH /api/comments/:comment_id", () => {
       .expect(404);
     expect(res.body.msg).toBe("Comment not found");
   });
+
+  test("400: when passed a non-valid comment_id", async () => {
+    const res = await request(app)
+      .patch("/api/comments/invalid_id")
+      .send({ inc_votes: 5 })
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
 });
