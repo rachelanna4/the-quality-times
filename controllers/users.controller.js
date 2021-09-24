@@ -18,14 +18,3 @@ exports.getUserByUsername = async (req, res, next) => {
     next(err);
   }
 };
-
-// #### **GET /api/users/:username**
-
-// Responds with:
-
-// - a user object which should have the following properties:
-//   - `username`
-//   - `avatar_url`
-//   - `name`
-
-// ---

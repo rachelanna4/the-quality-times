@@ -9,15 +9,3 @@ exports.deleteCommentById = async (req, res, next) => {
     next(err);
   }
 };
-
-// #### **DELETE /api/comments/:comment_id**
-
-// Should:
-
-// - delete the given comment by `comment_id`
-
-// Responds with:
-
-// - status 204 and no content
-
-// ---
