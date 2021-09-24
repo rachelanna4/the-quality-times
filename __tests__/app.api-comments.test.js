@@ -85,4 +85,12 @@ describe("PATCH /api/comments/:comment_id", () => {
       .expect(200);
     expect(res.body.comment.votes).toBe(12);
   });
+
+  test("404: when passed a valid but non-existent comment_id", async () => {
+    const res = await request(app)
+      .patch("/api/comments/350")
+      .send({ inc_votes: 1 })
+      .expect(404);
+    expect(res.body.msg).toBe("Comment not found");
+  });
 });
