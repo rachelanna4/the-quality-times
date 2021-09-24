@@ -15,7 +15,7 @@ exports.fetchArticleById = async (article_id) => {
   return article;
 };
 
-exports.updateArticleById = async (article_id, userRequest) => {
+exports.updateArticleVotesById = async (article_id, userRequest) => {
   const requestedUpdates = Object.keys(userRequest);
 
   if (requestedUpdates.length > 1 || !requestedUpdates.includes("inc_votes")) {
