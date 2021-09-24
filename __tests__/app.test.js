@@ -478,7 +478,7 @@ describe("DELETE /api/comments/:comment_id", () => {
 });
 
 describe("GET /api/users", () => {
-  test("returns an array of all user objects", async () => {
+  test("200: returns an array of all user objects", async () => {
     const res = await request(app).get("/api/users").expect(200);
     expect(Array.isArray(res.body.users)).toBe(true);
     expect(res.body.users.length).toBe(4);
@@ -486,7 +486,7 @@ describe("GET /api/users", () => {
       expect(typeof user).toBe("object");
     });
   });
-  test("user objects should have a username property only", async () => {
+  test("200: user objects should have a username property only", async () => {
     const res = await request(app).get("/api/users").expect(200);
     res.body.users.forEach((user) => {
       expect(user).toMatchObject({
@@ -495,6 +495,19 @@ describe("GET /api/users", () => {
     });
     expect(res.body.users[0]).toEqual({
       username: "butter_bridge",
+    });
+  });
+});
+
+describe("GET /api/users/:username", () => {
+  test("200: returns a single user object with the correct keys and value data types", async () => {
+    const res = await request(app).get("/api/users/butter_bridge").expect(200);
+    expect(typeof res.body).toBe("object");
+    expect(Array.isArray(res.body)).toBe(false);
+    expect(res.body).toMatchObject({
+      username: expect.any(String),
+      avatar_url: expect.any(String),
+      name: expect.any(String),
     });
   });
 });

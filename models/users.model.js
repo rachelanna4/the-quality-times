@@ -8,3 +8,12 @@ exports.fetchUsers = async () => {
     };
   });
 };
+
+exports.fetchUserByUsername = async (username) => {
+  const result = await db.query(
+    `SELECT username, avatar_url, name FROM users WHERE username = $1;`,
+    [username]
+  );
+
+  return result.rows[0];
+};

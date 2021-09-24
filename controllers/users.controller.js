@@ -1,4 +1,4 @@
-const { fetchUsers } = require("../models/users.model.js");
+const { fetchUsers, fetchUserByUsername } = require("../models/users.model.js");
 
 exports.getUsers = async (req, res, next) => {
   try {
@@ -9,11 +9,23 @@ exports.getUsers = async (req, res, next) => {
   }
 };
 
-// #### **GET /api/users**
+exports.getUserByUsername = async (req, res, next) => {
+  const { username } = req.params;
+  try {
+    const userData = await fetchUserByUsername(username);
+    res.status(200).send(userData);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// #### **GET /api/users/:username**
 
 // Responds with:
 
-// - an array of objects, each object should have the following property:
+// - a user object which should have the following properties:
 //   - `username`
+//   - `avatar_url`
+//   - `name`
 
 // ---
