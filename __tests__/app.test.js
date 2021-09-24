@@ -465,4 +465,8 @@ describe("DELETE /api/comments/:comment_id", () => {
     );
     expect(remainingCommentIds.includes(commentId)).toBe(false);
   });
+  test("404: returns Comment not found message when passed a valid but non-existent comment id", async () => {
+    const res = await request(app).delete("/api/comments/250").expect(404);
+    expect(res.body.msg).toBe("Comment not found");
+  });
 });
