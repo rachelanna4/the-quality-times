@@ -486,4 +486,15 @@ describe("GET /api/users", () => {
       expect(typeof user).toBe("object");
     });
   });
+  test("user objects should have a username property only", async () => {
+    const res = await request(app).get("/api/users").expect(200);
+    res.body.users.forEach((user) => {
+      expect(user).toMatchObject({
+        username: expect.any(String),
+      });
+    });
+    expect(res.body.users[0]).toEqual({
+      username: "butter_bridge",
+    });
+  });
 });
