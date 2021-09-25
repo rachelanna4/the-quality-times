@@ -516,4 +516,39 @@ describe("POST /api/articles", () => {
       .expect(201);
     expect(res.body.article).not.toHaveProperty("extra_key");
   });
+
+  test("201: article is added to the database", async () => {
+    await request(app)
+      .post("/api/articles")
+      .send({
+        author: "lurker",
+        title: "My New Article",
+        body: "Text of the new article...",
+        topic: "cats",
+      })
+      .expect(201);
+    const allArticles = await request(app).get("/api/articles").expect(200);
+    expect(allArticles.body.articles.length).toBe(13);
+    const newArticle = allArticles.body.articles.filter((article) => {
+      return (
+        article.author === "lurker" &&
+        article.title === "My New Article" &&
+        article.topic === "cats"
+      );
+    });
+    expect(newArticle.length).toBe(1);
+    const fullArticle = await request(app)
+      .get(`/api/articles/${newArticle[0].article_id}`)
+      .expect(200);
+    expect(fullArticle.body.article).toMatchObject({
+      article_id: expect.any(Number),
+      title: "My New Article",
+      body: "Text of the new article...",
+      votes: 0,
+      topic: "cats",
+      created_at: expect.any(String),
+      author: "lurker",
+      comment_count: 0,
+    });
+  });
 });
