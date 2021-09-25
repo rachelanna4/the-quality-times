@@ -361,7 +361,7 @@ describe("POST /api/articles/:article_id/comments", () => {
     });
   });
 
-  test("201: ignores any extra parameters included in request body", async () => {
+  test("201: ignores any extra keys included in request body", async () => {
     const res = await request(app)
       .post("/api/articles/1/comments")
       .send({
@@ -501,5 +501,19 @@ describe("POST /api/articles", () => {
       author: "lurker",
       comment_count: 0,
     });
+  });
+
+  test("201: ignores any extra parameters included in request body", async () => {
+    const res = await request(app)
+      .post("/api/articles")
+      .send({
+        author: "lurker",
+        title: "My New Article",
+        body: "Text of the new article...",
+        topic: "cats",
+        extra_key: "ignore me",
+      })
+      .expect(201);
+    expect(res.body.article).not.toHaveProperty("extra_key");
   });
 });
