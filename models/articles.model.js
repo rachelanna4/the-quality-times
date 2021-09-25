@@ -138,5 +138,5 @@ exports.addArticle = async (newArticle) => {
     [newArticle.title, newArticle.body, newArticle.topic, newArticle.author]
   );
 
-  return result.rows[0];
+  return result.rows[0].article_id;
 };
