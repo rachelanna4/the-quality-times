@@ -133,6 +133,15 @@ exports.postComment = async (article_id, comment) => {
 };
 
 exports.addArticle = async (newArticle) => {
+  if (
+    !newArticle.title ||
+    !newArticle.body ||
+    !newArticle.topic ||
+    !newArticle.author
+  ) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+
   const result = await db.query(
     `INSERT INTO articles (title, body, topic, author) VALUES ($1, $2, $3, $4) RETURNING *;`,
     [newArticle.title, newArticle.body, newArticle.topic, newArticle.author]

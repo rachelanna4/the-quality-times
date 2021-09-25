@@ -564,4 +564,16 @@ describe("POST /api/articles", () => {
       .expect(404);
     expect(res.body.msg).toBe("User not found");
   });
+
+  test("400: returns bad request when request object is missing properties", async () => {
+    const res = await request(app)
+      .post("/api/articles")
+      .send({
+        author: "lurker",
+        body: "Text of the new article...",
+        topic: "cats",
+      })
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
 });
