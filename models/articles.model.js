@@ -131,3 +131,12 @@ exports.postComment = async (article_id, comment) => {
 
   return result.rows[0];
 };
+
+exports.addArticle = async (newArticle) => {
+  const result = await db.query(
+    `INSERT INTO articles (title, body, topic, author) VALUES ($1, $2, $3, $4) RETURNING *;`,
+    [newArticle.title, newArticle.body, newArticle.topic, newArticle.author]
+  );
+
+  return result.rows[0];
+};

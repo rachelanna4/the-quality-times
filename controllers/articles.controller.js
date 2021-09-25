@@ -4,6 +4,7 @@ const {
   fetchArticles,
   fetchCommentsByArticle,
   postComment,
+  addArticle,
 } = require("../models/articles.model.js");
 
 exports.getArticleById = async (req, res, next) => {
@@ -61,3 +62,30 @@ exports.addCommentToArticle = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.postArticle = async (req, res, next) => {
+  const newArticle = req.body;
+  try {
+    const postedArticle = await addArticle(newArticle);
+    res.status(201).send({ article: postedArticle });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Request body accepts:
+
+// - an object with the following properties:
+
+//   - `author` which is the `username` from the users table
+//   - `title`
+//   - `body`
+//   - `topic`
+
+// Responds with:
+
+// - the newly added article, with all the above properties as well as:
+//   - `article_id`
+//   - `votes`
+//   - `created_at`
+//   - `comment_count`

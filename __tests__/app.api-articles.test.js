@@ -443,3 +443,19 @@ describe("POST /api/articles/:article_id/comments", () => {
     expect(res.body.msg).toBe("Bad request");
   });
 });
+
+describe("POST /api/articles", () => {
+  test("201: returns a single article object", async () => {
+    const res = await request(app)
+      .post("/api/articles")
+      .send({
+        author: "lurker",
+        title: "My New Article",
+        body: "Text of the new article...",
+        topic: "cats",
+      })
+      .expect(201);
+    expect(typeof res.body.article).toBe("object");
+    expect(Array.isArray(res.body.article)).toBe(false);
+  });
+});

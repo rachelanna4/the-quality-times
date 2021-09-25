@@ -7,6 +7,7 @@ const {
   getArticles,
   getCommentsByArticle,
   addCommentToArticle,
+  postArticle,
 } = require("../controllers/articles.controller.js");
 
 articlesRouter
@@ -17,6 +18,6 @@ articlesRouter
   .route("/:article_id/comments")
   .get(getCommentsByArticle)
   .post(addCommentToArticle);
-articlesRouter.get("/", getArticles);
+articlesRouter.route("/").get(getArticles).post(postArticle);
 
 module.exports = articlesRouter;

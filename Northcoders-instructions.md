@@ -1,7 +1,3 @@
-/// delete comment
-// update comment
-//pagination
-
 # Northcoders News API
 
 ## Background
@@ -309,6 +305,8 @@ Responds with:
 
 ### _Even more_ endpoints/tasks
 
+### CI /CD
+
 #### Adding pagination to GET /api/articles - adding pagination
 
 > To make sure that an API can handle large amounts of data, it is often necessary to use **pagination**. Head over to [Google](https://www.google.co.uk/search?q=cute+puppies), and you will notice that the search results are broken down into pages. It would not be feasible to serve up _all_ the results of a search in one go. The same is true of websites / apps like Facebook or Twitter (except they hide this by making requests for the next page in the background, when we scroll to the bottom of the browser). We can implement this functionality on our `/api/articles` and `/api/comments` endpoints.
@@ -374,3 +372,5 @@ Should:
 Respond with:
 
 - status 204 and no content
+
+### Add all additional endpoints to JSON get /api
