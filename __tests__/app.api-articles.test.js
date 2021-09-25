@@ -576,4 +576,17 @@ describe("POST /api/articles", () => {
       .expect(400);
     expect(res.body.msg).toBe("Bad request");
   });
+
+  test("400: returns bad request when title exceeds character limit", async () => {
+    const res = await request(app)
+      .post("/api/articles")
+      .send({
+        author: "lurker",
+        title: createStringOfLength(101),
+        body: "Text of the new article...",
+        topic: "cats",
+      })
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
 });

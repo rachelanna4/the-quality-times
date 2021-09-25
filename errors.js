@@ -1,5 +1,5 @@
 exports.handlePSQLInvalidTypeErrors = (err, req, res, next) => {
-  if (err.code === "22P02") {
+  if (err.code === "22P02" || err.code === "22001") {
     res.status(400).send({ msg: "Bad request" });
   } else {
     next(err);
