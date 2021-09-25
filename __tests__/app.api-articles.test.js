@@ -551,4 +551,17 @@ describe("POST /api/articles", () => {
       comment_count: 0,
     });
   });
+
+  test("404: returns User not found when invalid author username passed in", async () => {
+    const res = await request(app)
+      .post("/api/articles")
+      .send({
+        author: "not_a_user",
+        title: "My New Article",
+        body: "Text of the new article...",
+        topic: "cats",
+      })
+      .expect(404);
+    expect(res.body.msg).toBe("User not found");
+  });
 });

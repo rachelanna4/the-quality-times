@@ -7,6 +7,8 @@ const {
   addArticle,
 } = require("../models/articles.model.js");
 
+const { fetchUserByUsername } = require("../models/users.model");
+
 exports.getArticleById = async (req, res, next) => {
   try {
     const { article_id } = req.params;
@@ -66,6 +68,7 @@ exports.addCommentToArticle = async (req, res, next) => {
 exports.postArticle = async (req, res, next) => {
   const newArticle = req.body;
   try {
+    await fetchUserByUsername(newArticle.author);
     const newArticleId = await addArticle(newArticle);
     const postedArticle = await fetchArticleById(newArticleId);
     res.status(201).send({ article: postedArticle });
