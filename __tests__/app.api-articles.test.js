@@ -480,4 +480,26 @@ describe("POST /api/articles", () => {
       comment_count: expect.any(Number),
     });
   });
+
+  test("201: returns the correct posted article object", async () => {
+    const res = await request(app)
+      .post("/api/articles")
+      .send({
+        author: "lurker",
+        title: "My New Article",
+        body: "Text of the new article...",
+        topic: "cats",
+      })
+      .expect(201);
+    expect(res.body.article).toMatchObject({
+      article_id: expect.any(Number),
+      title: "My New Article",
+      body: "Text of the new article...",
+      votes: 0,
+      topic: "cats",
+      created_at: expect.any(String),
+      author: "lurker",
+      comment_count: 0,
+    });
+  });
 });
