@@ -596,4 +596,22 @@ describe("DELETE /api/articles/:article_id", () => {
     const res = await request(app).delete("/api/articles/1").expect(204);
     expect(res.text).toBe("");
   });
+
+  test("204: article is deleted from database", async () => {
+    const allArticles = await request(app).get("/api/articles").expect(200);
+    expect(allArticles.body.articles.length).toBe(12);
+
+    await request(app).delete("/api/articles/1").expect(204);
+    const remainingArticles = await request(app)
+      .get("/api/articles")
+      .expect(200);
+    expect(remainingArticles.body.articles.length).toBe(11);
+
+    const remainingArticleIds = remainingArticles.body.articles.filter(
+      (article) => {
+        return (article.article_id = 1);
+      }
+    );
+    expect(remainingArticleIds.includes(1)).toBe(false);
+  });
 });
