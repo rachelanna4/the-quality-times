@@ -401,6 +401,15 @@ describe("GET /api/articles/:article_id/comments", () => {
     expect(res.body.comments.length).toBe(5);
   });
 
+  test("200: total_count property returns the number of all comments available regardless of limit query passed in", async () => {
+    const res = await request(app).get("/api/articles/1/comments").expect(200);
+    expect(res.body.total_count).toBe(13);
+    const res2 = await request(app)
+      .get("/api/articles/1/comments?limit=5")
+      .expect(200);
+    expect(res2.body.total_count).toBe(13);
+  });
+
   test("404: returns Article not found message when passed a valid but non-existent article_id", async () => {
     const res = await request(app)
       .get("/api/articles/101/comments")
