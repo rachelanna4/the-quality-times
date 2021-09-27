@@ -51,6 +51,20 @@ describe("POST /api/topics", () => {
     expect(typeof res.body.topic).toBe("object");
     expect(Array.isArray(res.body.topic)).toBe(false);
   });
+
+  test("201: returned object has the correct keys and correct value data types", async () => {
+    const res = await request(app)
+      .post("/api/topics")
+      .send({
+        slug: "new topic",
+        description: "new description",
+      })
+      .expect(201);
+    expect(res.body.topic).toMatchObject({
+      slug: expect.any(String),
+      description: expect.any(String),
+    });
+  });
 });
 
 // #### POST /api/topics
