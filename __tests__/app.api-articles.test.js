@@ -186,6 +186,11 @@ describe("GET /api/articles", () => {
     expect(res.body.articles.length).toBe(10);
   });
 
+  test("200: when passed a limit, responds with that number of articles", async () => {
+    const res = await request(app).get("/api/articles/?limit=4").expect(200);
+    expect(res.body.articles.length).toBe(4);
+  });
+
   test("200: returned articles are returned sorted by date in descending order by default", async () => {
     const res = await request(app).get("/api/articles/").expect(200);
     expect(res.body.articles).toBeSortedBy("created_at", { descending: true });
