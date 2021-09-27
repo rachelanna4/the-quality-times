@@ -79,4 +79,16 @@ describe("POST /api/topics", () => {
       description: "new description",
     });
   });
+
+  test("201: ignores any extra properties included in request body", async () => {
+    const res = await request(app)
+      .post("/api/topics")
+      .send({
+        slug: "new topic",
+        description: "new description",
+        extra_property: "ignore me",
+      })
+      .expect(201);
+    expect(res.body.topic).not.toHaveProperty("extra_property");
+  });
 });
