@@ -437,6 +437,17 @@ describe("GET /api/articles/:article_id/comments", () => {
       .expect(400);
     expect(res.body.msg).toBe("Bad request");
   });
+
+  test("400: returns bad request message when an invalid page query is passed in", async () => {
+    const res = await request(app)
+      .get("/api/articles/1/comments?page=0")
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+    const res2 = await request(app)
+      .get("/api/articles/1/comments?page=invalid_page")
+      .expect(400);
+    expect(res2.body.msg).toBe("Bad request");
+  });
 });
 
 describe("POST /api/articles/:article_id/comments", () => {
