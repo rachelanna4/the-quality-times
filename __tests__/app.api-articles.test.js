@@ -503,7 +503,7 @@ describe("POST /api/articles", () => {
     });
   });
 
-  test("201: ignores any extra parameters included in request body", async () => {
+  test("201: ignores any extra properties included in request body", async () => {
     const res = await request(app)
       .post("/api/articles")
       .send({
