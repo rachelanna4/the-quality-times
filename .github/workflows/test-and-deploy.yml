@@ -37,6 +37,9 @@ jobs:
       - name: Checkout and clone repo
         uses: actions/checkout@v2
 
+      - name: Check secret values
+        run: printenv
+
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
