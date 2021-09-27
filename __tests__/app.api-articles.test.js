@@ -590,3 +590,10 @@ describe("POST /api/articles", () => {
     expect(res.body.msg).toBe("Bad request");
   });
 });
+
+describe("DELETE /api/articles/:article_id", () => {
+  test("204: responds with no content when an existing article is deleted ", async () => {
+    const res = await request(app).delete("/api/articles/1").expect(204);
+    expect(res.text).toBe("");
+  });
+});

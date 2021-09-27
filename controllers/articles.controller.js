@@ -5,6 +5,7 @@ const {
   fetchCommentsByArticle,
   addComment,
   addArticle,
+  removeArticle,
 } = require("../models/articles.model.js");
 
 const { fetchUserByUsername } = require("../models/users.model");
@@ -77,19 +78,12 @@ exports.postArticle = async (req, res, next) => {
   }
 };
 
-// Request body accepts:
-
-// - an object with the following properties:
-
-//   - `author` which is the `username` from the users table
-//   - `title`
-//   - `body`
-//   - `topic`
-
-// Responds with:
-
-// - the newly added article, with all the above properties as well as:
-//   - `article_id`
-//   - `votes`
-//   - `created_at`
-//   - `comment_count`
+exports.deleteArticleById = async (req, res, next) => {
+  const { article_id } = req.params;
+  try {
+    await removeArticle(article_id);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+};

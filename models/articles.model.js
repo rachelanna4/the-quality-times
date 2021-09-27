@@ -149,3 +149,7 @@ exports.addArticle = async (newArticle) => {
 
   return result.rows[0].article_id;
 };
+
+exports.removeArticle = async (article_id) => {
+  await db.query(`DELETE FROM articles WHERE article_id = $1;`, [article_id]);
+};
