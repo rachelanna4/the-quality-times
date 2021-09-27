@@ -394,6 +394,13 @@ describe("GET /api/articles/:article_id/comments", () => {
     expect(res.body.comments.length).toBe(10);
   });
 
+  test("200: when passed a limit, responds with that number of comments", async () => {
+    const res = await request(app)
+      .get("/api/articles/1/comments?limit=5")
+      .expect(200);
+    expect(res.body.comments.length).toBe(5);
+  });
+
   test("404: returns Article not found message when passed a valid but non-existent article_id", async () => {
     const res = await request(app)
       .get("/api/articles/101/comments")
