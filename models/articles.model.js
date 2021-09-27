@@ -118,7 +118,14 @@ exports.fetchArticles = async (
   return result;
 };
 
-exports.fetchCommentsByArticle = async (article_id) => {
+exports.fetchCommentsByArticle = async (article_id, limit = 10, page = 1) => {
+  const offset = (page - 1) * limit;
+
+  const paginatedComments = await db.query(
+    `SELECT comment_id, votes, created_at, author, body FROM comments WHERE article_id = $1 LIMIT $2 OFFSET $3; `,
+    [article_id, limit, offset]
+  );
+
   const allComments = await db.query(
     `SELECT comment_id, votes, created_at, author, body FROM comments WHERE article_id = $1;`,
     [article_id]
@@ -126,7 +133,7 @@ exports.fetchCommentsByArticle = async (article_id) => {
 
   const result = {};
 
-  result.commentsData = allComments.rows;
+  result.commentsData = paginatedComments.rows;
   result.total = allComments.rows.length;
 
   return result;

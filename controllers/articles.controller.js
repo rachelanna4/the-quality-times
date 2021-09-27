@@ -52,9 +52,14 @@ exports.getArticles = async (req, res, next) => {
 
 exports.getCommentsByArticle = async (req, res, next) => {
   const { article_id } = req.params;
+  const { limit, page } = req.query;
   try {
     await fetchArticleById(article_id);
-    const { commentsData, total } = await fetchCommentsByArticle(article_id);
+    const { commentsData, total } = await fetchCommentsByArticle(
+      article_id,
+      limit,
+      page
+    );
     res.status(200).send({ comments: commentsData, total_count: total });
   } catch (err) {
     next(err);

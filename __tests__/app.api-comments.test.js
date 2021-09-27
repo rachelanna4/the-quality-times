@@ -15,13 +15,13 @@ describe("DELETE /api/comments/:comment_id", () => {
 
   test("204: comment is deleted from database", async () => {
     const commentsResponse = await request(app)
-      .get("/api/articles/1/comments")
+      .get("/api/articles/1/comments?limit=20")
       .expect(200);
     const commentId = commentsResponse.body.comments[0].comment_id;
     const commentAmount = commentsResponse.body.comments.length;
     await request(app).delete(`/api/comments/${commentId}`).expect(204);
     const newCommentsResponse = await request(app)
-      .get("/api/articles/1/comments")
+      .get("/api/articles/1/comments?limit=20")
       .expect(200);
     expect(newCommentsResponse.body.comments.length).toBe(commentAmount - 1);
     const remainingCommentIds = newCommentsResponse.body.comments.map(

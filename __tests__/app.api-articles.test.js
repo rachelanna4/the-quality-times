@@ -358,8 +358,11 @@ describe("GET /api/articles/:article_id/comments", () => {
     expect(properties.includes("comments")).toBe(true);
     expect(properties.includes("total_count")).toBe(true);
   });
+
   test("200: the comments property contains an array of all comment objects associated with the specified article", async () => {
-    const res = await request(app).get("/api/articles/1/comments").expect(200);
+    const res = await request(app)
+      .get("/api/articles/1/comments?limit=20")
+      .expect(200);
     expect(Array.isArray(res.body.comments)).toBe(true);
     expect(res.body.comments.length).toBe(13);
     res.body.comments.forEach((comment) =>
@@ -384,6 +387,11 @@ describe("GET /api/articles/:article_id/comments", () => {
         body: expect.any(String),
       });
     });
+  });
+
+  test("200: responds with the first 10 comments by default", async () => {
+    const res = await request(app).get("/api/articles/1/comments").expect(200);
+    expect(res.body.comments.length).toBe(10);
   });
 
   test("404: returns Article not found message when passed a valid but non-existent article_id", async () => {
@@ -463,7 +471,9 @@ describe("POST /api/articles/:article_id/comments", () => {
       .post("/api/articles/1/comments")
       .send({ username: "lurker", body: "Living his best pug life" })
       .expect(201);
-    const res = await request(app).get("/api/articles/1/comments").expect(200);
+    const res = await request(app)
+      .get("/api/articles/1/comments?limit=20")
+      .expect(200);
     expect(res.body.comments.length).toBe(14);
     expect(
       res.body.comments.filter((comment) => {
