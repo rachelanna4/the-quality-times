@@ -290,6 +290,15 @@ describe("GET /api/articles", () => {
     res.body.articles.forEach((article) => expect(article.topic).toBe("mitch"));
   });
 
+  test("400: returns bad request message when an invalid page query is passed in", async () => {
+    const res = await request(app).get("/api/articles?page=0").expect(400);
+    expect(res.body.msg).toBe("Bad request");
+    const res2 = await request(app)
+      .get("/api/articles?page=invalid_page")
+      .expect(400);
+    expect(res2.body.msg).toBe("Bad request");
+  });
+
   test("400: returns bad request message when a limit of over 100 is passed in", async () => {
     const res = await request(app).get("/api/articles?limit=101").expect(400);
     expect(res.body.msg).toBe("Bad request");
