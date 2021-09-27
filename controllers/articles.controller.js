@@ -81,6 +81,7 @@ exports.postArticle = async (req, res, next) => {
 exports.deleteArticleById = async (req, res, next) => {
   const { article_id } = req.params;
   try {
+    await fetchArticleById(article_id);
     await removeArticle(article_id);
     res.status(204).send();
   } catch (err) {

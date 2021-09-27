@@ -614,4 +614,9 @@ describe("DELETE /api/articles/:article_id", () => {
     );
     expect(remainingArticleIds.includes(1)).toBe(false);
   });
+
+  test("404: returns Article not found message when passed a valid but non-existent article id", async () => {
+    const res = await request(app).delete("/api/articles/50").expect(404);
+    expect(res.body.msg).toBe("Article not found");
+  });
 });
