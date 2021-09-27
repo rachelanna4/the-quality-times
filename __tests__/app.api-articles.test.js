@@ -290,6 +290,11 @@ describe("GET /api/articles", () => {
     res.body.articles.forEach((article) => expect(article.topic).toBe("mitch"));
   });
 
+  test("400: returns bad request message when a limit of over 100 is passed in", async () => {
+    const res = await request(app).get("/api/articles?limit=101").expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
+
   test("400: returns bad request message when invalid sort_by query passed in", async () => {
     const res = await request(app)
       .get("/api/articles?sort_by=not_a_column")

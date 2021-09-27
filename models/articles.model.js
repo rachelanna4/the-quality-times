@@ -52,6 +52,10 @@ exports.fetchArticles = async (
     "votes",
   ];
 
+  if (limit > 100) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+
   const validOrder = ["asc", "desc"];
 
   if (!validColumns.includes(sort_by) || !validOrder.includes(order)) {
