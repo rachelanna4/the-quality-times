@@ -39,7 +39,9 @@ exports.fetchArticles = async (
   sort_by = "created_at",
   order = "desc",
   topic,
-  author
+  author,
+  limit = 10,
+  page = 1
 ) => {
   const validColumns = [
     "author",
@@ -70,9 +72,12 @@ exports.fetchArticles = async (
     return Promise.reject({ status: 404, msg: "Topic not found" });
   }
 
+  const offset = (page - 1) * limit;
+
   let queryStr = `SELECT articles.author, title, articles.article_id, topic, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id `;
 
   const filters = [];
+
   if (topic) {
     filters.push(`articles.topic = '${topic}'`);
   }
@@ -86,7 +91,7 @@ exports.fetchArticles = async (
     queryStr += `WHERE ${queries} `;
   }
 
-  queryStr += `GROUP BY articles.article_id ORDER BY ${sort_by} ${order};`;
+  queryStr += `GROUP BY articles.article_id ORDER BY ${sort_by} ${order} LIMIT ${limit} OFFSET ${offset};`;
 
   const result = await db.query(queryStr);
 

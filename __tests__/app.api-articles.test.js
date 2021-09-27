@@ -181,6 +181,11 @@ describe("GET /api/articles", () => {
     expect(article4.comment_count).toBe(0);
   });
 
+  test("200: responds with the first 10 articles by default", async () => {
+    const res = await request(app).get("/api/articles/").expect(200);
+    expect(res.body.articles.length).toBe(10);
+  });
+
   test("200: returned articles are returned sorted by date in descending order by default", async () => {
     const res = await request(app).get("/api/articles/").expect(200);
     expect(res.body.articles).toBeSortedBy("created_at", { descending: true });
@@ -207,14 +212,25 @@ describe("GET /api/articles", () => {
   });
 
   test("200: all articles are returned when no topic parameter is specified", async () => {
-    const res = await request(app).get("/api/articles").expect(200);
-    expect(res.body.articles.length).toBe(12);
+    const page1 = await request(app).get("/api/articles").expect(200);
+    expect(page1.body.articles.length).toBe(10);
+    const page2 = await request(app).get("/api/articles?page=2").expect(200);
+    expect(page2.body.articles.length).toBe(2);
   });
 
   test("200: returns only the articles associated with the specified topic when topic is passed in as a parameter", async () => {
-    const res = await request(app).get("/api/articles?topic=mitch").expect(200);
-    expect(res.body.articles.length).toBe(11);
-    res.body.articles.forEach((article) => expect(article.topic).toBe("mitch"));
+    const page1 = await request(app)
+      .get("/api/articles?topic=mitch")
+      .expect(200);
+    expect(page1.body.articles.length).toBe(10);
+    page1.body.articles.forEach((article) =>
+      expect(article.topic).toBe("mitch")
+    );
+    const page2 = await request(app)
+      .get("/api/articles?topic=mitch&page=2")
+      .expect(200);
+    expect(page2.body.articles.length).toBe(1);
+    expect(page2.body.articles[0].topic).toBe("mitch");
   });
 
   test("200: returns an empty array when a valid topic is passed in but has no associated articles", async () => {
@@ -224,8 +240,10 @@ describe("GET /api/articles", () => {
   });
 
   test("200: all articles are returned when no author parameter is specified", async () => {
-    const res = await request(app).get("/api/articles").expect(200);
-    expect(res.body.articles.length).toBe(12);
+    const page1 = await request(app).get("/api/articles").expect(200);
+    expect(page1.body.articles.length).toBe(10);
+    const page2 = await request(app).get("/api/articles?page=2").expect(200);
+    expect(page2.body.articles.length).toBe(2);
   });
 
   test("200: returns only the articles associated with a specified author when author is passed in as a parameter", async () => {
@@ -527,7 +545,9 @@ describe("POST /api/articles", () => {
         topic: "cats",
       })
       .expect(201);
-    const allArticles = await request(app).get("/api/articles").expect(200);
+    const allArticles = await request(app)
+      .get("/api/articles?limit=20")
+      .expect(200);
     expect(allArticles.body.articles.length).toBe(13);
     const newArticle = allArticles.body.articles.filter((article) => {
       return (
@@ -598,12 +618,14 @@ describe("DELETE /api/articles/:article_id", () => {
   });
 
   test("204: article is deleted from database", async () => {
-    const allArticles = await request(app).get("/api/articles").expect(200);
+    const allArticles = await request(app)
+      .get("/api/articles?limit=20")
+      .expect(200);
     expect(allArticles.body.articles.length).toBe(12);
 
     await request(app).delete("/api/articles/1").expect(204);
     const remainingArticles = await request(app)
-      .get("/api/articles")
+      .get("/api/articles?limit=20")
       .expect(200);
     expect(remainingArticles.body.articles.length).toBe(11);
 
