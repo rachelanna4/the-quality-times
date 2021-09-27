@@ -131,4 +131,15 @@ describe("POST /api/topics", () => {
       .expect(400);
     expect(res.body.msg).toBe("Bad request");
   });
+
+  test("400: returns bad request when description property exceeds character limit", async () => {
+    const res = await request(app)
+      .post("/api/topics")
+      .send({
+        slug: "new topic",
+        description: createStringOfLength(251),
+      })
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
 });
