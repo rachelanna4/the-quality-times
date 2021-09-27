@@ -38,3 +38,34 @@ describe("GET /api/topics", () => {
     });
   });
 });
+
+describe("POST /api/topics", () => {
+  test("201: responds with a single topic object", async () => {
+    const res = await request(app)
+      .post("/api/topics")
+      .send({
+        slug: "new topic",
+        description: "new description",
+      })
+      .expect(201);
+    expect(typeof res.body.topic).toBe("object");
+    expect(Array.isArray(res.body.topic)).toBe(false);
+  });
+});
+
+// #### POST /api/topics
+
+// Request body accepts:
+
+// - an object in the form:
+
+// ```json
+// {
+//   "slug": "topic name here",
+//   "description": "description here"
+// }
+// ```
+
+// Responds with:
+
+// - a topic object containing the newly added topic
