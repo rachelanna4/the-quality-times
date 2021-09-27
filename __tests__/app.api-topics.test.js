@@ -3,6 +3,7 @@ const testData = require("../db/data/test-data/index.js");
 const seed = require("../db/seeds/seed.js");
 const app = require("../app.js");
 const request = require("supertest");
+const { createStringOfLength } = require("../db/utils/data-manipulation");
 
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
@@ -115,6 +116,17 @@ describe("POST /api/topics", () => {
       .post("/api/topics")
       .send({
         slug: "new topic",
+      })
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
+
+  test("400: returns bad request when slug property exceeds character limit", async () => {
+    const res = await request(app)
+      .post("/api/topics")
+      .send({
+        slug: createStringOfLength(21),
+        description: "new description",
       })
       .expect(400);
     expect(res.body.msg).toBe("Bad request");
