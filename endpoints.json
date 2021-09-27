@@ -1,7 +1,9 @@
 {
   "GET /api": {
-    "description": "serves up a json representation of all the available endpoints of this api"
+    "description": "serves up a json representation of all the available endpoints of this api",
+    "queries": []
   },
+
   "GET /api/topics": {
     "description": "serves an array of all news topics",
     "queries": [],
@@ -11,6 +13,21 @@
       ]
     }
   },
+
+  "POST /api/topics": {
+    "description": "accepts a request body with a specified slug and description, creates the topic with these properties, and returns the topic object to the user",
+    "exampleRequest": {
+      "slug": "New Topic Name",
+      "description": "New description"
+    },
+    "exampleResponse": {
+      "topic": {
+        "slug": "New Topic Name",
+        "description": "New description"
+      }
+    }
+  },
+
   "GET /api/articles": {
     "description": "serves an array of all available articles",
     "queries": ["author", "topic", "sort_by", "order"],
@@ -21,41 +38,75 @@
           "topic": "football",
           "author": "weegembump",
           "body": "Text from the article..",
-          "created_at": 1527695953341,
+          "created_at": "2021-09-27T10:33:59.809Z",
           "votes": 0
         }
       ]
     }
   },
+
+  "POST /api/articles": {
+    "description": "accepts a request body with a specified author, title, body and topic, creates the article with these properties, and returns the article object to the user",
+    "exampleRequest": {
+      "author": "user1",
+      "title": "My New Article",
+      "body": "Text of the new article...",
+      "topic": "cooking"
+    },
+    "exampleResponse": {
+      "article": {
+        "article_id": 22,
+        "title": "My New Article",
+        "body": "Text of the new article...",
+        "votes": 0,
+        "topic": "cooking",
+        "created_at": "2021-09-27T10:33:59.809Z",
+        "author": "user1",
+        "comment_count": 0
+      }
+    }
+  },
+
   "GET /api/articles/:article_id": {
     "description": "serves an object with data relating to the selected article",
     "queries": [],
     "exampleResponse": {
-      "author": "happyamy2016",
-      "title": "High Altitude Cooking",
-      "article_id": 28,
-      "body": "Text from the article..",
-      "topic": "cooking",
-      "created_at": 1578097440000,
-      "votes": 0,
-      "comment_count": 10
+      "article": {
+        "author": "happyamy2016",
+        "title": "High Altitude Cooking",
+        "article_id": 28,
+        "body": "Text from the article..",
+        "topic": "cooking",
+        "created_at": "2021-09-27T10:33:59.809Z",
+        "votes": 0,
+        "comment_count": 10
+      }
     }
   },
+
   "PATCH /api/articles/:article_id": {
-    "description": "accepts a request object with an inc_votes property, increases or decreases the vote count of the specified article according to this value, and serves the updated article object",
+    "description": "accepts a request object with an inc_votes property, increases or decreases the vote count of the specified article according to this value, and returns the updated article object",
     "queries": [],
     "exampleRequest": { "inc_votes": 10 },
     "exampleResponse": {
-      "author": "happyamy2016",
-      "title": "High Altitude Cooking",
-      "article_id": 28,
-      "body": "Text from the article..",
-      "topic": "cooking",
-      "created_at": 1578097440000,
-      "votes": 10,
-      "comment_count": 10
+      "article": {
+        "author": "happyamy2016",
+        "title": "High Altitude Cooking",
+        "article_id": 28,
+        "body": "Text from the article..",
+        "topic": "cooking",
+        "created_at": "2021-09-27T10:33:59.809Z",
+        "votes": 10,
+        "comment_count": 10
+      }
     }
   },
+
+  "DELETE /api/articles/:article_id": {
+    "description": "deletes the specified article",
+    "exampleResponse": null
+  },
+
   "GET /api/articles/:article_id/comments": {
     "description": "serves an array of all comments associated with the selected article",
     "queries": [],
@@ -64,25 +115,74 @@
         {
           "comment_id": 15,
           "votes": 8,
-          "created_at": 1603656480000,
+          "created_at": "2021-09-27T10:33:59.809Z",
           "author": "jessjelly",
           "body": "Text from the comment.."
         }
       ]
     }
   },
+
   "POST /api/articles/:article_id/comments": {
-    "description": "accepts a request with a username and body property, adds a comment to the database with these values, and serves the posted comment object",
+    "description": "accepts a request with a username and body property, adds a comment to the database with these values, and returns the posted comment",
     "exampleRequest": {
       "username": "happyamy2016",
       "body": "My new comment..."
     },
     "exampleResponse": {
-      "comment_id": 100,
-      "votes": 0,
-      "created_at": 1803656480000,
-      "author": "happyamy2016",
-      "body": "My new comment..."
+      "comment": {
+        "comment_id": 100,
+        "votes": 0,
+        "created_at": "2021-09-27T10:33:59.809Z",
+        "author": "happyamy2016",
+        "body": "My new comment..."
+      }
+    }
+  },
+
+  "PATCH /api/comments/:comment_id": {
+    "description": "accepts a request object with an inc_votes property, increases or decreases the vote count of the specified comment according to this value, and returns the updated comment",
+    "exampleRequest": { "inc_votes": 1 },
+    "exampleResponse": {
+      "comment": {
+        "comment_id": 10,
+        "body": "Text of the comment...",
+        "votes": 2,
+        "author": "user1",
+        "article_id": 12,
+        "created_at": "2021-09-27T10:33:59.809Z"
+      }
+    }
+  },
+
+  "DELETE /api/comments/:comment_id": {
+    "description": "deletes the specified comment",
+    "exampleResponse": null
+  },
+
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": [],
+    "exampleResponse": {
+      "users": [
+        {
+          "username": "user1",
+          "name": "Margot",
+          "avatar_url": "https://my-test-avatar.com/12345"
+        }
+      ]
+    }
+  },
+
+  "GET /api/users/:username": {
+    "description": "serves an object with data relating to the selected user",
+    "queries": [],
+    "exampleResponse": {
+      "user": {
+        "username": "user2",
+        "name": "Alex",
+        "avatar_url": "https://my-test-avatar2.com/12345789"
+      }
     }
   }
 }
