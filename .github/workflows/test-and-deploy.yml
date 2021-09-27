@@ -28,7 +28,7 @@ jobs:
         run: npm i
 
       - name: Run all tests
-        uses: PGDATABASE=test_db PGUSER=test_user PGPASSWORD=test_password npm t
+        run: PGDATABASE=test_db PGUSER=test_user PGPASSWORD=test_password npm t
 
   deploy:
     runs-on: ubuntu-latest
