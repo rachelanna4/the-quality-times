@@ -91,4 +91,22 @@ describe("POST /api/topics", () => {
       .expect(201);
     expect(res.body.topic).not.toHaveProperty("extra_property");
   });
+
+  test("201: topic is added to the database", async () => {
+    await request(app)
+      .post("/api/topics")
+      .send({
+        slug: "new topic",
+        description: "new description",
+      })
+      .expect(201);
+    const allTopics = await request(app).get("/api/topics").expect(200);
+    expect(allTopics.body.topics.length).toBe(4);
+    const newTopic = allTopics.body.topics.filter((topic) => {
+      return (
+        topic.slug === "new topic" && topic.description === "new description"
+      );
+    });
+    expect(newTopic.length).toBe(1);
+  });
 });
