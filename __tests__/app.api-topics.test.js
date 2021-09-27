@@ -65,21 +65,18 @@ describe("POST /api/topics", () => {
       description: expect.any(String),
     });
   });
+
+  test("201: returns the correct posted topic object", async () => {
+    const res = await request(app)
+      .post("/api/topics")
+      .send({
+        slug: "new topic",
+        description: "new description",
+      })
+      .expect(201);
+    expect(res.body.topic).toEqual({
+      slug: "new topic",
+      description: "new description",
+    });
+  });
 });
-
-// #### POST /api/topics
-
-// Request body accepts:
-
-// - an object in the form:
-
-// ```json
-// {
-//   "slug": "topic name here",
-//   "description": "description here"
-// }
-// ```
-
-// Responds with:
-
-// - a topic object containing the newly added topic
