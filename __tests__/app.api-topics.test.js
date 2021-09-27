@@ -109,4 +109,14 @@ describe("POST /api/topics", () => {
     });
     expect(newTopic.length).toBe(1);
   });
+
+  test("400: returns bad request when request object is missing properties", async () => {
+    const res = await request(app)
+      .post("/api/topics")
+      .send({
+        slug: "new topic",
+      })
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
 });
