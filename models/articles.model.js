@@ -105,7 +105,7 @@ exports.fetchCommentsByArticle = async (article_id) => {
   return result.rows;
 };
 
-exports.postComment = async (article_id, comment) => {
+exports.addComment = async (article_id, comment) => {
   const { username, body } = comment;
 
   if (!username || !body) {
