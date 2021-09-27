@@ -36,7 +36,7 @@ exports.patchArticleVotesById = async (req, res, next) => {
 exports.getArticles = async (req, res, next) => {
   const { sort_by, order, topic, author, limit, page } = req.query;
   try {
-    const articleData = await fetchArticles(
+    const { articleData, total } = await fetchArticles(
       sort_by,
       order,
       topic,
@@ -44,7 +44,7 @@ exports.getArticles = async (req, res, next) => {
       limit,
       page
     );
-    res.status(200).send({ articles: articleData });
+    res.status(200).send({ articles: articleData, total_count: total });
   } catch (err) {
     next(err);
   }

@@ -150,7 +150,15 @@ describe("PATCH /api/articles/:article_id", () => {
 });
 
 describe("GET /api/articles", () => {
-  test("200: returns an array of article objects", async () => {
+  test("200: returns an object with an articles property and a total_count property", async () => {
+    const res = await request(app).get("/api/articles").expect(200);
+    const properties = Object.keys(res.body);
+    expect(properties.length).toBe(2);
+    expect(properties.includes("articles")).toBe(true);
+    expect(properties.includes("total_count")).toBe(true);
+  });
+
+  test("200: article key contains an array of article objects", async () => {
     const res = await request(app).get("/api/articles").expect(200);
     expect(Array.isArray(res.body.articles)).toBe(true);
     res.body.articles.forEach((article) =>
@@ -169,7 +177,7 @@ describe("GET /api/articles", () => {
     );
   });
 
-  test("200: returned object has expected comment_count value", async () => {
+  test("200: returned article objects have expected comment_count value", async () => {
     const res = await request(app).get("/api/articles/").expect(200);
     const article1 = res.body.articles.find(
       (article) => article.article_id === 1

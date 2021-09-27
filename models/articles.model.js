@@ -95,14 +95,27 @@ exports.fetchArticles = async (
     queryStr += `WHERE ${queries} `;
   }
 
-  queryStr += `GROUP BY articles.article_id ORDER BY ${sort_by} ${order} LIMIT ${limit} OFFSET ${offset};`;
+  const totalCountQuery =
+    queryStr + `GROUP BY articles.article_id ORDER BY ${sort_by} ${order};`;
 
-  const result = await db.query(queryStr);
+  const paginatedArticlesQuery =
+    queryStr +
+    `GROUP BY articles.article_id ORDER BY ${sort_by} ${order} LIMIT ${limit} OFFSET ${offset};`;
 
-  return result.rows.map((article) => {
+  const result = {};
+
+  const paginatedArticlesResult = await db.query(paginatedArticlesQuery);
+
+  result.articleData = paginatedArticlesResult.rows.map((article) => {
     article.comment_count = parseInt(article.comment_count);
     return article;
   });
+
+  const totalCountResult = await db.query(totalCountQuery);
+
+  result.total = totalCountResult.rows.length;
+
+  return result;
 };
 
 exports.fetchCommentsByArticle = async (article_id) => {
