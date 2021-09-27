@@ -351,7 +351,14 @@ describe("GET /api/articles", () => {
 });
 
 describe("GET /api/articles/:article_id/comments", () => {
-  test("200: returns an array of all comment objects associated with the specified article", async () => {
+  test("200: returns an object with a comments property and a total_count property", async () => {
+    const res = await request(app).get("/api/articles/1/comments").expect(200);
+    const properties = Object.keys(res.body);
+    expect(properties.length).toBe(2);
+    expect(properties.includes("comments")).toBe(true);
+    expect(properties.includes("total_count")).toBe(true);
+  });
+  test("200: the comments property contains an array of all comment objects associated with the specified article", async () => {
     const res = await request(app).get("/api/articles/1/comments").expect(200);
     expect(Array.isArray(res.body.comments)).toBe(true);
     expect(res.body.comments.length).toBe(13);

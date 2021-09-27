@@ -119,12 +119,17 @@ exports.fetchArticles = async (
 };
 
 exports.fetchCommentsByArticle = async (article_id) => {
-  const result = await db.query(
+  const allComments = await db.query(
     `SELECT comment_id, votes, created_at, author, body FROM comments WHERE article_id = $1;`,
     [article_id]
   );
 
-  return result.rows;
+  const result = {};
+
+  result.commentsData = allComments.rows;
+  result.total = allComments.rows.length;
+
+  return result;
 };
 
 exports.addComment = async (article_id, comment) => {
