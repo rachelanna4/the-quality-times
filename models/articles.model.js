@@ -100,11 +100,14 @@ exports.fetchArticles = async (
 
   const paginatedArticlesQuery =
     queryStr +
-    `GROUP BY articles.article_id ORDER BY ${sort_by} ${order} LIMIT ${limit} OFFSET ${offset};`;
+    `GROUP BY articles.article_id ORDER BY ${sort_by} ${order} LIMIT $1 OFFSET $2;`;
 
   const result = {};
 
-  const paginatedArticlesResult = await db.query(paginatedArticlesQuery);
+  const paginatedArticlesResult = await db.query(paginatedArticlesQuery, [
+    limit,
+    offset,
+  ]);
 
   result.articleData = paginatedArticlesResult.rows.map((article) => {
     article.comment_count = parseInt(article.comment_count);
