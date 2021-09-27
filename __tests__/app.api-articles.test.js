@@ -299,6 +299,15 @@ describe("GET /api/articles", () => {
     expect(res2.body.msg).toBe("Bad request");
   });
 
+  test("400: returns bad request message when an invalid limit query is passed in", async () => {
+    const res = await request(app).get("/api/articles?limit=-2").expect(400);
+    expect(res.body.msg).toBe("Bad request");
+    const res2 = await request(app)
+      .get("/api/articles?limit=invalid_limit")
+      .expect(400);
+    expect(res2.body.msg).toBe("Bad request");
+  });
+
   test("400: returns bad request message when a limit of over 100 is passed in", async () => {
     const res = await request(app).get("/api/articles?limit=101").expect(400);
     expect(res.body.msg).toBe("Bad request");
