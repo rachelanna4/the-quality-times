@@ -122,6 +122,10 @@ exports.fetchArticles = async (
 };
 
 exports.fetchCommentsByArticle = async (article_id, limit = 10, page = 1) => {
+  if (limit > 100) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+
   const offset = (page - 1) * limit;
 
   const paginatedComments = await db.query(
