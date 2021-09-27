@@ -199,6 +199,13 @@ describe("GET /api/articles", () => {
     expect(res.body.articles.length).toBe(4);
   });
 
+  test("200: total_count property returns the number of all articles available regardless of limit query passed in", async () => {
+    const res = await request(app).get("/api/articles").expect(200);
+    expect(res.body.total_count).toBe(12);
+    const res2 = await request(app).get("/api/articles?limit=5").expect(200);
+    expect(res2.body.total_count).toBe(12);
+  });
+
   test("200: when passed a page query, responds with that page of articles", async () => {
     const res = await request(app).get("/api/articles/?page=2").expect(200);
     expect(res.body.articles.length).toBe(2);
