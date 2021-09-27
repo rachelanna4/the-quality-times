@@ -29,8 +29,8 @@
   },
 
   "GET /api/articles": {
-    "description": "serves an array of all available articles",
-    "queries": ["author", "topic", "sort_by", "order"],
+    "description": "serves an array of all available articles, paginated by a default limit of 10 articles per page, along with a total count of all available articles",
+    "queries": ["author", "topic", "sort_by", "order", "limit", "page"],
     "exampleResponse": {
       "articles": [
         {
@@ -41,7 +41,8 @@
           "created_at": "2021-09-27T10:33:59.809Z",
           "votes": 0
         }
-      ]
+      ],
+      "total_count": 1
     }
   },
 
@@ -108,8 +109,8 @@
   },
 
   "GET /api/articles/:article_id/comments": {
-    "description": "serves an array of all comments associated with the selected article",
-    "queries": [],
+    "description": "serves an array of all comments associated with the selected article, paginated to a default limit of 10 comments per page, alongside a total count of all available comments",
+    "queries": ["limit", "page"],
     "exampleResponse": {
       "comments": [
         {
@@ -119,7 +120,8 @@
           "author": "jessjelly",
           "body": "Text from the comment.."
         }
-      ]
+      ],
+      "total_count": 1
     }
   },
 
