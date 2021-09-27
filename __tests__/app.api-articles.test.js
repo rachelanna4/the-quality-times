@@ -619,4 +619,11 @@ describe("DELETE /api/articles/:article_id", () => {
     const res = await request(app).delete("/api/articles/50").expect(404);
     expect(res.body.msg).toBe("Article not found");
   });
+
+  test("400: returns Bad request message when passed an invalid article id", async () => {
+    const res = await request(app)
+      .delete("/api/articles/not_a_valid_id")
+      .expect(400);
+    expect(res.body.msg).toBe("Bad request");
+  });
 });
