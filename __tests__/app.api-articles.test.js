@@ -38,7 +38,7 @@ describe("GET /api/articles/:article_id", () => {
       article_id: 1,
       body: "I find this existence challenging",
       topic: "mitch",
-      created_at: "2020-07-09T20:11:00.000Z",
+      created_at: expect.any(String),
       votes: 100,
       comment_count: 13,
     });
@@ -52,7 +52,7 @@ describe("GET /api/articles/:article_id", () => {
       article_id: 4,
       body: "We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
       topic: "mitch",
-      created_at: "2020-05-06T01:14:00.000Z",
+      created_at: expect.any(String),
       votes: 0,
       comment_count: 0,
     });
