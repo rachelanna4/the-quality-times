@@ -22,6 +22,7 @@ describe("GET /api", () => {
       "POST /api/topics",
       "GET /api/articles",
       "POST /api/articles",
+      "GET /api/articles/breaking-news",
       "GET /api/articles/:article_id",
       "PATCH /api/articles/:article_id",
       "DELETE /api/articles/:article_id",
@@ -32,7 +33,7 @@ describe("GET /api", () => {
       "GET /api/users",
       "GET /api/users/:username",
     ];
-    expect(returnedEndpoints.length).toBe(14);
+    expect(returnedEndpoints.length).toBe(15);
     availableEndpoints.forEach((endpoint) => {
       expect(returnedEndpoints.includes(endpoint)).toBe(true);
     });

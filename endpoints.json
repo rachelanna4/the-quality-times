@@ -34,6 +34,7 @@
     "exampleResponse": {
       "articles": [
         {
+          "article_id": 55,
           "title": "What does Jose Mourinho's handwriting say about his personality?",
           "topic": "football",
           "author": "weegembump",
@@ -65,6 +66,19 @@
         "author": "user1",
         "comment_count": 0
       }
+    }
+  },
+
+  "GET /api/articles/breaking-news": {
+    "description": "serves an array of all the article_id and titles of articles posted within the last day",
+    "queries": [],
+    "exampleResponse": {
+      "breaking_news": [
+        {
+          "article_id": 92,
+          "title": "New Story Just In"
+        }
+      ]
     }
   },
 
