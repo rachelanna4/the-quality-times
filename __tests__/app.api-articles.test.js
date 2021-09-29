@@ -800,4 +800,10 @@ describe("GET /api/articles/breaking-news", () => {
       title: "My New Article",
     });
   });
+  test("200: breaking_news array is empty when no new news articles in the past day are posted ", async () => {
+    const res = await request(app)
+      .get("/api/articles/breaking-news")
+      .expect(200);
+    expect(res.body.breaking_news.length).toBe(0);
+  });
 });
