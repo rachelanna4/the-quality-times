@@ -806,4 +806,35 @@ describe("GET /api/articles/breaking-news", () => {
       .expect(200);
     expect(res.body.breaking_news.length).toBe(0);
   });
+  test("200: returns multiple articles, with article_id and title properties, in the breaking_news array when multiple news articles are posted within the last day", async () => {
+    await request(app)
+      .post("/api/articles")
+      .send({
+        author: "lurker",
+        title: "My New Article",
+        body: "Text of the new article...",
+        topic: "cats",
+      })
+      .expect(201);
+    await request(app)
+      .post("/api/articles")
+      .send({
+        author: "rogersop",
+        title: "Another New Article",
+        body: "More text ...",
+        topic: "paper",
+      })
+      .expect(201);
+    const res = await request(app)
+      .get("/api/articles/breaking-news")
+      .expect(200);
+    expect(res.body.breaking_news.length).toBe(2);
+    res.body.breaking_news.forEach((article) => {
+      expect(Object.keys(article).length).toBe(2);
+      expect(article).toMatchObject({
+        article_id: expect.any(Number),
+        title: expect.any(String),
+      });
+    });
+  });
 });
