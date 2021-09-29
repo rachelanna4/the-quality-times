@@ -778,3 +778,26 @@ describe("DELETE /api/articles/:article_id", () => {
     expect(res.body.msg).toBe("Bad request");
   });
 });
+
+describe("GET /api/articles/breaking-news", () => {
+  test("returns an object with a breakingNews property that contains an array of article objects ", async () => {
+    await request(app)
+      .post("/api/articles")
+      .send({
+        author: "lurker",
+        title: "My New Article",
+        body: "Text of the new article...",
+        topic: "cats",
+      })
+      .expect(201);
+    const res = await request(app)
+      .get("/api/articles/breaking-news")
+      .expect(200);
+    expect(typeof res.body).toBe("object");
+    expect(Array.isArray(res.body.breaking_news)).toBe(true);
+    expect(res.body.breaking_news[0]).toMatchObject({
+      article_id: expect.any(Number),
+      title: "My New Article",
+    });
+  });
+});

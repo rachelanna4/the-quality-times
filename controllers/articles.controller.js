@@ -1,4 +1,5 @@
 const {
+  fetchBreakingNews,
   fetchArticleById,
   updateArticleVotesById,
   fetchArticles,
@@ -9,6 +10,15 @@ const {
 } = require("../models/articles.model.js");
 
 const { fetchUserByUsername } = require("../models/users.model");
+
+exports.getBreakingNews = async (req, res, next) => {
+  try {
+    const articleData = await fetchBreakingNews();
+    res.status(200).send({ breaking_news: articleData });
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.getArticleById = async (req, res, next) => {
   try {

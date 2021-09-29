@@ -2,6 +2,7 @@ const express = require("express");
 const articlesRouter = express.Router();
 
 const {
+  getBreakingNews,
   getArticleById,
   patchArticleVotesById,
   getArticles,
@@ -11,6 +12,7 @@ const {
   deleteArticleById,
 } = require("../controllers/articles.controller.js");
 
+articlesRouter.get("/breaking-news", getBreakingNews);
 articlesRouter
   .route("/:article_id")
   .get(getArticleById)

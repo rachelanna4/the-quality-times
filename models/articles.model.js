@@ -1,5 +1,13 @@
 const db = require("../db/connection.js");
 
+exports.fetchBreakingNews = async () => {
+  const result = await db.query(
+    `SELECT article_id, title FROM articles WHERE created_at >= current_timestamp - interval '1 day'; `
+  );
+
+  return result.rows;
+};
+
 exports.fetchArticleById = async (article_id) => {
   const result = await db.query(
     `SELECT articles.author, title, articles.article_id, articles.body, topic, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id WHERE articles.article_id = $1 GROUP BY articles.article_id;`,
