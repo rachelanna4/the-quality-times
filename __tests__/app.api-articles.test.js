@@ -780,7 +780,7 @@ describe("DELETE /api/articles/:article_id", () => {
 });
 
 describe("GET /api/articles/breaking-news", () => {
-  test("returns an object with a breakingNews property that contains an array of article objects ", async () => {
+  test("200: returns an object with a breaking_news property that contains an array of article objects ", async () => {
     await request(app)
       .post("/api/articles")
       .send({
