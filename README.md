@@ -31,7 +31,7 @@ The guide below will give you all the setup information you need to view this pr
 
 To clone the repository for access on your local machine, run the following command in your terminal:
 
-`git clone <PUBLIC URL HERE>`
+`git clone https://github.com/rachelanna4/the-quality-times.git`
 
 ### Install Dependencies
 
