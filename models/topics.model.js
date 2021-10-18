@@ -1,4 +1,3 @@
-const { post } = require("superagent");
 const db = require("../db/connection.js");
 
 exports.fetchTopics = async () => {
