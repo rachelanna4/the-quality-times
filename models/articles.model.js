@@ -86,7 +86,7 @@ exports.fetchArticles = async (
 
   const offset = (page - 1) * limit;
 
-  let queryStr = `SELECT articles.author, title, articles.article_id, topic, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id `;
+  let queryStr = `SELECT articles.author, title, articles.article_id, topic, articles.body, articles.created_at, articles.votes, COUNT(comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id `;
 
   const filters = [];
 
