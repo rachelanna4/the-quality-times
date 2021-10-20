@@ -40,7 +40,8 @@
           "author": "weegembump",
           "body": "Text from the article..",
           "created_at": "2021-09-27T10:33:59.809Z",
-          "votes": 0
+          "votes": 0,
+          "comment_count": 5
         }
       ],
       "total_count": 1
