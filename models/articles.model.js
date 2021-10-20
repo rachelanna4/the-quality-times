@@ -58,6 +58,7 @@ exports.fetchArticles = async (
     "topic",
     "created_at",
     "votes",
+    "comment_count",
   ];
 
   if (limit > 100) {
