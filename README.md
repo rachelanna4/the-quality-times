@@ -1,12 +1,15 @@
 # The Quality Times News API
 
 [Click here to access the API](https://the-quality-times.herokuapp.com/api).
+[Click here to access the hosted website](https://the-quality-times.netlify.app/).
 
 ## Background
 
 I built 'The Quality Times' API during my time on the Northcoders software development bootcamp course.
 
 Its purpose is to be an interactive API, built in JavaScript, that serves up a variety of news articles and supports various features such as, allowing users to filter news by topic, to search for specific articles, and to post, update, and delete comments.
+
+I have also built and hosted the frontend website that interacts with this API and this can be viewed using the links above.
 
 ## Local Development Setup
 
@@ -83,4 +86,4 @@ To run the server on your local machine, run the following command in the termin
 
 You should see a message in the console that tells you the app is listening on port 9090.
 
-The API should now be accessible through this link - [Click here to access the local API](http://localhost:9090/api).
+When running this command, the API should also be locally accessible through this link - [Click here to access the local API](http://localhost:9090/api).
