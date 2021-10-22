@@ -4,6 +4,8 @@
 
 [Click here to access the hosted website](https://the-quality-times.netlify.app/).
 
+[Click here to access the frontend repository](https://github.com/rachelanna4/the-quality-times-frontend).
+
 ## Background
 
 I built 'The Quality Times' API during my time on the Northcoders software development bootcamp course.
@@ -35,7 +37,7 @@ The guide below will give you all the setup information you need to view this pr
 
 To clone the repository for access on your local machine, run the following command in your terminal:
 
-`git clone https://github.com/rachelanna4/the-quality-times.git`
+`git clone https://github.com/rachelanna4/the-quality-times-backend.git`
 
 ### Install Dependencies
 
