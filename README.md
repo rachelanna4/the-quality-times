@@ -1,6 +1,7 @@
 # The Quality Times News API
 
 [Click here to access the API](https://the-quality-times.herokuapp.com/api).
+
 [Click here to access the hosted website](https://the-quality-times.netlify.app/).
 
 ## Background
@@ -86,4 +87,6 @@ To run the server on your local machine, run the following command in the termin
 
 You should see a message in the console that tells you the app is listening on port 9090.
 
-When running this command, the API should also be locally accessible through this link - [Click here to access the local API](http://localhost:9090/api).
+When running this command, the API should also be locally accessible through this link:
+
+[Click here to access the local API](http://localhost:9090/api).
